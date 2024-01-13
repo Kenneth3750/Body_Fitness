@@ -84,7 +84,10 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="#">Your Website</a>
+                <a class="navbar-brand" href="#">
+                    <img src="/static/img/logo.png" alt="Logo" width="100" height="30" class="d-inline-block align-text-top">
+                    
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -94,7 +97,7 @@
                             <a class="nav-link" href="registro.html">Registrar</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="usuarios.html">Usuarios</a>
+                            <a class="nav-link" href="usuarios.html">Ver usuarios</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,11 +114,16 @@
             </div>
         </nav>
 <div class="container mt-5">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center align-items-center">
         <div class="col-md-6">
-            <div class="d-flex justify-content-center align-items-center mb-4">
-                <a href="registro.html" class="btn btn-primary me-5 mb-9">Registrar</a>
-                <a href="usuarios.html" class="btn btn-primary mb-100">Usuarios</a>
+            <div class="mb-5">
+                <p1 class="">Seleccione el procedimiento a realizar</p1>
+            </div>
+
+            <div class="text-center">
+                <div class=" mb-4"></div>
+                <a href="registro.html" class="btn btn-primary me-5 mb-9 btn-lg btn-square btn-extra-large">Registrar nuevo cliente</a>
+                <a href="usuarios.html" class="btn btn-primary me-5 mb-9 btn-lg btn-square btn-extra-large">Ver clientes</a>
             </div>
         </div>
     </div>
