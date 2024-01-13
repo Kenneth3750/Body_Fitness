@@ -13,6 +13,10 @@ def login():
 def index():
     return render_template('index.html')
 
+@app.route('/registro.html')
+def registro():
+    return render_template('registro.html')
+
 
 
 app.run(debug=True, port=10000)
