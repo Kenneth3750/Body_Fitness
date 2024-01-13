@@ -116,18 +116,43 @@
         <div class="container">
             <h1>Registro de nuevo usuario</h1>
             <form>
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre">
-                </div>
-                <div class="mb-3">
-                    <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellido" placeholder="Ingrese su apellido">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" placeholder="Ingrese apellido">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="text" class="form-control" id="edad" placeholder="Ingrese edad">
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="cedula" class="form-label">Cédula</label>
-                    <input type="text" class="form-control" id="cedula" placeholder="Ingrese su cédula">
+                    <input type="text" class="form-control" id="cedula" placeholder="Ingrese cédula">
                 </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo electronico</label>
+                    <input type="email" class="form-control" id="correo" placeholder="Ingrese email">
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Celular</label>
+                    <input type="text" class="form-control" id="telefono" placeholder="Ingrese numero Celular">
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" placeholder="Ingrese dirección">
+                </div>
+
                 <div class="mb-3">
                     <label for="plan" class="form-label">Tipo de Plan</label>
                     <select class="form-select" id="plan" onchange="showAdditionalFields()">
