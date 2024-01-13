@@ -8,6 +8,7 @@
         
         <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
 
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
@@ -111,7 +112,7 @@
         </nav>
         <div class="container">
             <h1>Registro de nuevo usuario</h1>
-            <form>
+            <form id = "userForm" onsubmit="submitForm()" > 
                 <div class="row">
                     <div class="col">
                         <div class="mb-3">
