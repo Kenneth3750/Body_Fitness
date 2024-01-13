@@ -23,3 +23,9 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+/* CSS */
+.btn-extra-large {
+  font-size: 6rem; /* Adjust as needed */
+  padding: 3rem 6rem; /* Adjust as needed */
+}
