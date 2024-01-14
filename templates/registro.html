@@ -129,13 +129,13 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="edad" class="form-label">Edad</label>
-                            <input type="text" class="form-control" id="edad" placeholder="Ingrese edad">
+                            <input type="number" class="form-control" id="edad" placeholder="Ingrese edad">
                         </div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="cedula" class="form-label">Cédula</label>
-                    <input type="text" class="form-control" id="cedula" placeholder="Ingrese cédula">
+                    <input type="number" class="form-control" id="cedula" placeholder="Ingrese cédula">
                 </div>
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo electronico</label>
@@ -143,7 +143,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Celular</label>
-                    <input type="text" class="form-control" id="telefono" placeholder="Ingrese numero Celular">
+                    <input type="number" class="form-control" id="telefono" placeholder="Ingrese numero Celular">
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
@@ -165,30 +165,19 @@
                 </div>
                 <div id="additionalFields" style="display: none;">
                     <div class="mb-3">
-                        <label for="duracion" class="form-label">Duración</label>
-                        <input type="text" class="form-control" id="duracion" placeholder="Ingrese la duración">
+                        <label for="duracion" class="form-label">Duración en meses</label>
+                        <input type="number" class="form-control" id="duracion" placeholder="Ingrese la duración">
                     </div>
                     <div class="mb-3">
                         <label for="valor" class="form-label">Valor</label>
-                        <input type="text" class="form-control" id="valor" placeholder="Ingrese el valor">
+                        <input type="number" class="form-control" id="valor" placeholder="Ingrese el valor">
                     </div>
                 </div>
+                <button class="btn btn-primary mb-3" type="submit" id="save" onclick=" checkform(event)">Guardar</button>
+                <div id="liveAlertPlaceholder"></div>
 
-                <script>
-                    function showAdditionalFields() {
-                        var planSelect = document.getElementById("plan");
-                        var additionalFields = document.getElementById("additionalFields");
-
-                        if (planSelect.value === "plan8") {
-                            additionalFields.style.display = "block";
-                        } else {
-                            additionalFields.style.display = "none";
-                        }
-                    }
-                </script>
-
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </form>
+                
+                </form>
 
         </div>
 

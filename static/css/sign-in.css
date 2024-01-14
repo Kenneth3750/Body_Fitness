@@ -29,3 +29,7 @@ body {
   font-size: 6rem; /* Adjust as needed */
   padding: 3rem 6rem; /* Adjust as needed */
 }
+
+#alert{
+  max-width: 100px;
+}
