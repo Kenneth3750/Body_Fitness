@@ -3,6 +3,7 @@ let tope = 6;
 function showAdditionalFields() {
     var planSelect = document.getElementById("plan");
     var additionalFields = document.getElementById("additionalFields");
+    tope = 6;
     if (planSelect.value === "plan8") {
         tope = 10;
         additionalFields.style.display = "block";
@@ -41,7 +42,7 @@ function checkform(event){
 
 function submitWithDelay(event) {
     event.preventDefault();
-        submitForm();
+        submitUserForm();
         appendAlert('Nuevo usuario registrado exitosamente', 'success');
         hideAlertAfterDelay(10000); 
         setTimeout(() => {
@@ -90,5 +91,37 @@ function submitForm() {
             console.error("Error sending data:", error);
             // Handle the error
         }
+    });
+}
+
+function submitUserForm() {
+    $("#userForm").submit(function (event) {
+        event.preventDefault();
+
+        var formData = {
+            nombre: $('#nombre').val(),
+            apellido: $('#apellido').val(),
+            edad: $('#edad').val(),
+            cedula: $('#cedula').val(),
+            correo: $('#correo').val(),
+            telefono: $('#telefono').val(),
+            direccion: $('#direccion').val(),
+            plan: $('#plan').val()
+        };
+        
+        console.log(formData);
+
+        $.ajax({
+            url: '/registro.html',
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                console.log(data);
+                // You can handle the response from the server here
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
     });
 }
