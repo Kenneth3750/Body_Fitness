@@ -95,33 +95,30 @@ function submitForm() {
 }
 
 function submitUserForm() {
-    $("#userForm").submit(function (event) {
-        event.preventDefault();
+    var formData = {
+        nombre: $('#nombre').val(),
+        apellido: $('#apellido').val(),
+        edad: $('#edad').val(),
+        cedula: $('#cedula').val(),
+        correo: $('#correo').val(),
+        telefono: $('#telefono').val(),
+        direccion: $('#direccion').val(),
+        plan: $('#plan').val(),
+        duracion: $('#duracion').val(), // Agrega campos adicionales según sea necesario
+        valor: $('#valor').val()
+    };
 
-        var formData = {
-            nombre: $('#nombre').val(),
-            apellido: $('#apellido').val(),
-            edad: $('#edad').val(),
-            cedula: $('#cedula').val(),
-            correo: $('#correo').val(),
-            telefono: $('#telefono').val(),
-            direccion: $('#direccion').val(),
-            plan: $('#plan').val()
-        };
-        
-        console.log(formData);
-
-        $.ajax({
-            url: '/registro.html',
-            type: 'POST',
-            data: formData,
-            success: function(data) {
-                console.log(data);
-                // You can handle the response from the server here
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
+    $.ajax({
+        url: '/registro.html',  // Ajusta la URL según la ruta de tu servidor Flask
+        type: 'POST',
+        data: formData,
+        success: function(data) {
+            console.log(data);
+            // Puedes manejar la respuesta del servidor aquí
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
     });
+
 }
