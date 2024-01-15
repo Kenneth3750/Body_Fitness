@@ -4,7 +4,7 @@ import pymysql
 from pymysql import Error
 from decouple import config
 
-#body_fitness server correct
+#body_fitness server 
 
 app = Flask(__name__)
 
