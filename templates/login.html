@@ -70,19 +70,19 @@
 
     
 <main class="form-signin w-100 m-auto">
-  <form>
+  <form id="loginform">
     <img class="mb-4" src="/static/img/Logo.png" alt="" width="200" height="70">
     <h1 class="h3 mb-3 fw-normal">Por favor inicie sesión</h1>
 
     <div class="form-floating">
-      <input type="number" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <input type="text" class="form-control" id="floatingInput" placeholder="id">
       <label for="floatingInput">Identificación</label>
     </div>
     <div class="form-floating">
       <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
       <label for="floatingPassword">Contraseña</label>
     </div>
-    <a href="index.html" class="btn btn-primary w-100 py-2 " >Sign in</a>
+    <a  onclick="checklogin(event)" class="btn btn-primary w-100 py-2 " >Sign in</a>
     <p class="mt-5 mb-3 text-body-secondary">&copy; KSE Engineering Solutions 2023</p>
   </form>
 </main>

@@ -122,3 +122,29 @@ function submitUserForm() {
     });
 
 }
+
+function checklogin(event){
+    var f = document.forms["loginForm"].elements;
+    var emptyFields = false;
+    for (var i = 0; i < 2; i++) {
+        if (f[i].value.trim() === "") {
+            emptyFields = true;
+            break;
+        }
+    }
+
+    if (emptyFields) {
+        event.preventDefault();
+        appendAlert('Hacen falta datos por rellenar', 'danger');
+        hideAlertAfterDelay(10000);
+
+    } else {
+       if (f[0].value === "admin" && f[1].value === "admin") {
+        appendAlert('Bienvenido', 'success');
+        hideAlertAfterDelay(10000); 
+        setTimeout(() => {
+        window.location.href = "index.html";
+        }, 2000);
+       }
+    }
+}
