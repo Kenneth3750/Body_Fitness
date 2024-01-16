@@ -39,6 +39,7 @@ def form_data():
         user = request.form.to_dict()
         user_no_empty = {k: v for k, v in user.items() if v}
         user = user_no_empty
+        plan = user['plan']
     try:
         connection = database_connection()
         if connection:
