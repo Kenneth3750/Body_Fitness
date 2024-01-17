@@ -167,7 +167,7 @@ function searchUser() {
             console.log(data);
             let plan = "";
             var userData = document.getElementById("userData");
-            switch (data[0][8]) {
+            switch (data[0][11]) {
                 case "1":
                     plan = "1 mes";
                     break;
