@@ -70,14 +70,14 @@ def form_data():
             plan_duration = int(plan_duration)
 
             end_date = datetime.now() + timedelta(days=30*plan_duration) 
-            end_date = end_date.strftime("%Y-%m-%d %H:%M:%S")
+            end_date = end_date.strftime("%Y-%m-%d")
             frequency = None
         elif plan in day_plans:
             plan_duration= get_plan_duration(plan)
             plan_duration = plan_duration[0][0]
             plan_duration = int(plan_duration)
             end_date = datetime.now() + timedelta(days=plan_duration)
-            end_date = end_date.strftime("%Y-%m-%d %H:%M:%S")
+            end_date = end_date.strftime("%Y-%m-%d")
             if plan == 5:
                 frequency = 10
             elif plan == 6:
@@ -88,9 +88,10 @@ def form_data():
             plan_duration = user['duracion']
             plan_duration = int(plan_duration)
             end_date = datetime.now() + timedelta(days = 30*plan_duration)
-            end_date = end_date.strftime("%Y-%m-%d %H:%M:%S")
+            end_date = end_date.strftime("%Y-%m-%d")
             frequency = None
-        print(end_date)
+        current_date = datetime.now()
+        current_date = current_date.strftime("%Y-%m-%d")
         
     try:
         connection = database_connection()
@@ -100,8 +101,8 @@ def form_data():
                 values = (user['nombre'], user['apellido'], user['edad'], user['cedula'], user['correo'], user['telefono'], user['direccion'])
                 cursor.execute(sql,values)
                 user_id = cursor.lastrowid
-                sql = "INSERT INTO user_plans (user_id, plan_id, end_plan_date, frequency, payment_day) VALUES (%s, %s, %s, %s, %s)"
-                values = (user_id, plan, end_date, frequency, datetime.now()) 
+                sql = "INSERT INTO user_plans (user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) VALUES (%s, %s, %s, %s, %s, %s)"
+                values = (user_id, plan, current_date, end_date, frequency, datetime.now()) 
                 cursor.execute(sql,values)
                 
             connection.commit()
