@@ -168,26 +168,29 @@ function searchUser() {
             let plan = "";
             var userData = document.getElementById("userData");
             switch (data[0][11]) {
-                case "1":
+                case 1:
                     plan = "1 mes";
                     break;
-                case "2":
+                case 2:
                     plan = "2 meses";
                     break;
-                case "3":
+                case 3:
                     plan = "3 meses";
                     break;
-                case "4": 
+                case 4: 
                     plan = "6 meses";
                     break;
-                case "5":
+                case 5:
                     plan = "10 dias";
                     break;
-                case "6":
+                case 6:
                     plan = "12 dias";
                     break;
-                case "7":
+                case 7:
                     plan = "15 dias";
+                    break;
+                case 8:
+                    plan = "Otro";
                     break;
             }
 
