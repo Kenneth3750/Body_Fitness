@@ -204,7 +204,6 @@ function searchUser() {
                 </tr>
             `;
 
-            // Show the table
             var userTable = document.getElementById("userTable");
             userTable.style.display = "block";
         },
