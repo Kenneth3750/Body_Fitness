@@ -5,6 +5,7 @@ from pymysql import Error
 from decouple import config
 from datetime import datetime, timedelta
 
+
 #body_fitness server 
 
 app = Flask(__name__)
@@ -112,6 +113,34 @@ def form_data():
     except Error as e:
         print( 'Error ' + str(e), 500)
         return jsonify({'message': 'Error' + str(e)}), 500
+    
+
+
+@app.route('/usuarios.html')
+def usuario():
+    return render_template('usuarios.html')
+
+@app.route('/usuarios.html', methods=['POST', 'GET'])
+def search_user():
+    if request.method == 'POST':
+        user_dni = request.form.to_dict()
+        user_dni = list(user_dni.keys())[0]
+        try:
+            connection = database_connection()
+            if connection:
+                with connection.cursor() as cursor:
+                    sql = "SELECT * FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE cedula = (%s)"
+                    cursor.execute(sql, user_dni)
+                    result = cursor.fetchall()
+                    connection.close()
+                    print(jsonify(result))
+                    return jsonify(result), 200
+            else:
+                print("Database connection failed")
+                return jsonify({'message': 'Database connection failed'}), 500
+        except Error as e:
+            print( 'Error ' + str(e))
+            return jsonify({'message': 'Error' + str(e)}), 500
 
 
 
