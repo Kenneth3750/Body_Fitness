@@ -191,6 +191,8 @@ function searchUser() {
                     break;
             }
 
+            userTable.innerHTML = "";
+
             userData.innerHTML = `
                 <tr>
                     <td>${data[0][4]}</td>
@@ -202,8 +204,7 @@ function searchUser() {
                     <td>${data[0][13]}</td>
                     <td>${data[0][16]}</td>
                 </tr>
-            `;
-
+            `;  
             var userTable = document.getElementById("userTable");
             userTable.style.display = "block";
         },
