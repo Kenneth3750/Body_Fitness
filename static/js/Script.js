@@ -194,7 +194,11 @@ function searchUser() {
                     break;
             }
 
+
             userData.innerHTML = "";
+
+            user.innerHTML = "";
+
 
             userData.innerHTML = `
                 <tr>
