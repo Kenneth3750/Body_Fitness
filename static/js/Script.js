@@ -125,12 +125,14 @@ function submitUserForm() {
 }
 
 function checklogin(event){
-    var f = document.forms["loginForm"].elements;
+    var f = document.forms["loginform"].elements;
     var emptyFields = false;
+    console.log(f.length);
     for (var i = 0; i < 2; i++) {
         console.log(f[i].value);
         if (f[i].value.trim() === "") {
             emptyFields = true;
+            console.log("empty");
             break;
         }
     }
@@ -141,12 +143,44 @@ function checklogin(event){
         hideAlertAfterDelay(10000);
 
     } else {
+        console.log(f[0].value);
+        console.log(f[1].value);
        if (f[0].value === "admin" && f[1].value === "admin") {
+        console.log("entro");
         appendAlert('Bienvenido', 'success');
         hideAlertAfterDelay(10000); 
         setTimeout(() => {
         window.location.href = "index.html";
-        }, 2000);
+        }, 500);
        }
     }
+}
+
+function searchUser() {
+    var userId = document.getElementById("userId").value;
+
+    $.ajax({
+        url: '/usuarios.html',  // Adjust the URL according to your Flask server route
+        type: 'POST',
+        data: userId,
+        success: function(data) {
+            console.log(data);
+            var userData = document.getElementById("userData");
+            userData.innerHTML = `
+                <tr>
+                    <td>${data.id}</td>
+                    <td>${data.name}</td>
+                    <td>${data.email}</td>
+                    <td>${data.phone}</td>
+                </tr>
+            `;
+
+            // Show the table
+            var userTable = document.getElementById("userTable");
+            userTable.style.display = "block";
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
 }
