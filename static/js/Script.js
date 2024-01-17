@@ -4,7 +4,7 @@ function showAdditionalFields() {
     var planSelect = document.getElementById("plan");
     var additionalFields = document.getElementById("additionalFields");
     tope = 6;
-    if (planSelect.value === "plan8") {
+    if (planSelect.value === "8") {
         tope = 10;
         additionalFields.style.display = "block";
     } else {
@@ -114,6 +114,7 @@ function submitUserForm() {
         data: formData,
         success: function(data) {
             console.log(data);
+            console.log(typeof( data ));
             // Puedes manejar la respuesta del servidor aquí
         },
         error: function(xhr, status, error) {
