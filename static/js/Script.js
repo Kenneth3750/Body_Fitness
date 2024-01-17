@@ -166,12 +166,40 @@ function searchUser() {
         success: function(data) {
             console.log(data);
             var userData = document.getElementById("userData");
+            switch (data[8]) {
+                case "1":
+                    plan = "1 mes";
+                    break;
+                case "2":
+                    plan = "2 meses";
+                    break;
+                case "3":
+                    plan = "3 meses";
+                    break;
+                case "4": 
+                    plan = "6 meses";
+                    break;
+                case "5":
+                    plan = "10 dias";
+                    break;
+                case "6":
+                    plan = "12 dias";
+                    break;
+                case "7":
+                    plan = "15 dias";
+                    break;
+            }
+
             userData.innerHTML = `
                 <tr>
-                    <td>${data.id}</td>
-                    <td>${data.name}</td>
-                    <td>${data.email}</td>
-                    <td>${data.phone}</td>
+                    <td>${data[4]}</td>
+                    <td>${data[1]} ${data[2]}</td>
+                    <td>${data[5]}</td>
+                    <td>${data[6]}</td>
+                    <td>${data[7]}</td>
+                    <td>${plan}</td>
+                    <td>${data[13]}</td>
+                    <td>${data[16]}</td>
                 </tr>
             `;
 
