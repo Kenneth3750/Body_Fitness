@@ -165,6 +165,7 @@ function searchUser() {
         data: userId,
         success: function(data) {
             console.log(data);
+            let plan = "";
             var userData = document.getElementById("userData");
             switch (data[8]) {
                 case "1":
