@@ -194,7 +194,7 @@ function searchUser() {
                     break;
             }
 
-            userTable.innerHTML = "";
+            user.innerHTML = "";
 
             userData.innerHTML = `
                 <tr>
