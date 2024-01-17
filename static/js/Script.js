@@ -167,7 +167,7 @@ function searchUser() {
             console.log(data);
             let plan = "";
             var userData = document.getElementById("userData");
-            switch (data[8]) {
+            switch (data[0][8]) {
                 case "1":
                     plan = "1 mes";
                     break;
@@ -193,14 +193,14 @@ function searchUser() {
 
             userData.innerHTML = `
                 <tr>
-                    <td>${data[4]}</td>
-                    <td>${data[1]} ${data[2]}</td>
-                    <td>${data[5]}</td>
-                    <td>${data[6]}</td>
-                    <td>${data[7]}</td>
+                    <td>${data[0][4]}</td>
+                    <td>${data[0][1]} ${data[0][2]}</td>
+                    <td>${data[0][5]}</td>
+                    <td>${data[0][6]}</td>
+                    <td>${data[0][7]}</td>
                     <td>${plan}</td>
-                    <td>${data[13]}</td>
-                    <td>${data[16]}</td>
+                    <td>${data[0][13]}</td>
+                    <td>${data[0][16]}</td>
                 </tr>
             `;
 
