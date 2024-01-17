@@ -127,6 +127,7 @@ function checklogin(event){
     var f = document.forms["loginForm"].elements;
     var emptyFields = false;
     for (var i = 0; i < 2; i++) {
+        console.log(f[i].value);
         if (f[i].value.trim() === "") {
             emptyFields = true;
             break;
