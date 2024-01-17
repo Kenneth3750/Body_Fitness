@@ -19,15 +19,30 @@ create table if not exists users(
 
 create table if not exists plans(
     id int not null primary key auto_increment,
+    duration int, 
     plan_name varchar(50) not null
 );
 
+create table if not exists user_plans(
+    id int not null primary key auto_increment,
+    user_id int not null,
+    plan_id int not null,
+    start_plan_date datetime default current_timestamp,
+    end_plan_date datetime not null,
+    frequency int, 
+    payment_day datetime,
+    payment_status enum('pendiente', 'pagado') default 'pendiente',
+    foreign key (user_id) references users(id) on delete cascade,
+    foreign key (plan_id) references plans(id) on delete cascade
+);
 
-insert into plans(plan_name) values('1 Mes');
-insert into plans(plan_name) values('2 Meses');
-insert into plans(plan_name) values('3 Meses');
-insert into plans(plan_name) values('6 Meses');
-insert into plans(plan_name) values('10 dias');
-insert into plans(plan_name) values('12 dias');
-insert into plans(plan_name) values('15 dias');
-insert into plans(plan_name) values('otro');
+
+
+insert into plans(plan_name, duration) values('1 Mes', 1);
+insert into plans(plan_name, duration) values('2 Meses', 2);
+insert into plans(plan_name, duration) values('3 Meses', 3);
+insert into plans(plan_name, duration) values('6 Meses', 6);
+insert into plans(plan_name, duration) values('10 dias', 15);
+insert into plans(plan_name, duration) values('12 dias', 20);
+insert into plans(plan_name, duration) values('15 dias', 30);
+insert into plans(plan_name, duration) values('otro', null);
