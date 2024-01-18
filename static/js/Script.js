@@ -1,5 +1,6 @@
 // ajax function to load a user to database
 let tope = 6;
+let searchId;
 function showAdditionalFields() {
     var planSelect = document.getElementById("plan");
     var additionalFields = document.getElementById("additionalFields");
@@ -161,8 +162,11 @@ function checklogin(event){
 }
 
 function searchUser() {
-    var userId = document.getElementById("userId").value;
-
+    var userId = {
+        id: $('#userId').val(),
+        form_id: 'form1'
+    };
+    
     $.ajax({
         url: '/usuarios.html',  // Adjust the URL according to your Flask server route
         type: 'POST',
@@ -201,7 +205,6 @@ function searchUser() {
 
             userData.innerHTML = "";
 
-            user.innerHTML = "";
 
 
             userData.innerHTML = `
@@ -218,8 +221,9 @@ function searchUser() {
             `;  
             var userTable = document.getElementById("userTable");
             userTable.style.display = "block";
+            searchId = data[0][10];
         },
-        error: function(xhr, status, error) {
+        error: function(status, error) { 
             console.error('Error:', error);
         }
     });
@@ -227,13 +231,36 @@ function searchUser() {
 
 function newEntry(){
     var userIdEntry = {
-        id: $('#entryUser').val()
+        id: $('#entryUser').val(),
     };
     console.log(userIdEntry);   
     $.ajax({
         url: '/index.html',  
         type: 'POST',
         data: userIdEntry,
+        success: function(data) {
+            console.log(data);
+            console.log(typeof( data ));
+        
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    })
+}
+
+function renewPlan(){
+    var newPlan = {
+        id: searchId,
+        plan: $('#plan').val(),
+        duracion: $('#duracion').val(),
+        form_id: 'form2'
+    };
+    console.log(newPlan);   
+    $.ajax({
+        url: '/usuarios.html',  
+        type: 'POST',
+        data: newPlan,
         success: function(data) {
             console.log(data);
             console.log(typeof( data ));
