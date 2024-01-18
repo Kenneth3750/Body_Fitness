@@ -174,6 +174,7 @@ function searchUser() {
         success: function(data) {
             console.log(data);
             let plan = "";
+            let dias = false;
             var userData = document.getElementById("userData");
             switch (data[0][11]) {
                 case 1:
@@ -190,12 +191,15 @@ function searchUser() {
                     break;
                 case 5:
                     plan = "10 dias";
+                    dias = true;
                     break;
                 case 6:
                     plan = "12 dias";
+                    dias = true;
                     break;
                 case 7:
                     plan = "15 dias";
+                    dias = true;
                     break;
                 case 8:
                     plan = "Otro";
@@ -203,10 +207,8 @@ function searchUser() {
             }
 
 
+
             userData.innerHTML = "";
-
-
-
             userData.innerHTML = `
                 <tr>
                     <td>${data[0][4]}</td>
@@ -216,9 +218,26 @@ function searchUser() {
                     <td>${data[0][7]}</td>
                     <td>${plan}</td>
                     <td>${data[0][13]}</td>
-                    <td>${data[0][16]}</td>
                 </tr>
-            `;  
+            `; 
+
+            if (dias) {
+                console.log("entro dias");
+                userTable.innerHTML += `<th>Dias restantes</th>`;
+                userData.innerHTML += `<td>${data[0][14]}</td>`;
+                if(data[0][14]==0){
+                    console.log("entro vencido por frecuencia");
+                    userTable.innerHTML += `<th>Estado</th>`;    
+                    userData.innerHTML += `<td>vencido</td>`;
+
+                }else{
+                    console.log("entro activo por frecuencia pero chequeo fecha")
+                    checkdate();                  
+                }
+            }else{
+                console.log("entro planes de meses y chequeo fechas");
+                checkdate();
+            }            
             var userTable = document.getElementById("userTable");
             userTable.style.display = "block";
             searchId = data[0][10];
@@ -228,6 +247,22 @@ function searchUser() {
         }
     });
 }
+
+function checkdate(){
+    var currentDate = new Date();
+    var dataDate = new Date(data[0][13]);
+    console.log(currentDate);
+    console.log(dataDate);
+    if (currentDate >= dataDate) {
+        userTable.innerHTML += `<th>Estado</th>`;    
+        userData.innerHTML += `<td>vencido</td>`;
+        displaycontent();
+    }else{
+        userTable.innerHTML += `<th>Estado</th>`;    
+        userData.innerHTML += `<td>activo</td>`;
+    }    
+}
+
 
 function newEntry(){
     var userIdEntry = {
@@ -270,4 +305,11 @@ function renewPlan(){
             console.error('Error:', error);
         }
     })
+}
+
+
+
+function displaycontent(){
+    var content = document.getElementById("renovar");
+    content.style.display = "block";
 }
