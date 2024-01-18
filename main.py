@@ -48,6 +48,29 @@ def login():
 def index():
     return render_template('index.html')
 
+@app.route('/index.html', methods=['POST'])
+def login_data():
+    if request.method == 'POST':
+        user = request.form.to_dict()
+        id = user['id']
+        try:
+            connection = database_connection()
+            if connection:
+                with connection.cursor() as cursor:
+                    sql = "SELECT users.id FROM users WHERE users.cedula = (%s)"
+                    cursor.execute(sql, id)
+                    result = cursor.fetchall()
+                    print(result[0][0])
+                    connection.close()
+                    return jsonify(result), 200
+            else:
+                print("Database connection failed")
+                return jsonify({'message': 'Database connection failed'}), 500
+        except Error as e:
+            print( 'Error ' + str(e))
+            return jsonify({'message': 'Error' + str(e)}), 500
+    return jsonify({'message': 'message recieved successfully'}), 200
+
 @app.route('/registro.html')
 def registro():
     return render_template('registro.html')
@@ -134,7 +157,6 @@ def search_user():
                     cursor.execute(sql, user_dni)
                     result = cursor.fetchall()
                     connection.close()
-                    print(jsonify(result))
                     return jsonify(result), 200
             else:
                 print("Database connection failed")
