@@ -266,7 +266,8 @@ function checkdate(){
 }
 
 
-function newEntry(){
+function newEntry(event){
+    event.preventDefault();
     var userIdEntry = {
         id: $('#entryUser').val(),
     };
@@ -280,7 +281,9 @@ function newEntry(){
             console.log(typeof( data ));
         
         },
-        error: function(xhr, status, error) {
+        error: function(xhr, status, error) { 
+            appendAlert('Usuario no registrado', 'danger');
+            hideAlertAfterDelay(5000);
             console.error('Error:', error);
         }
     })

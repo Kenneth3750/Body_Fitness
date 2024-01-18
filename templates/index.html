@@ -127,13 +127,30 @@
     </div>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-5 ">
     <form>
         <div class="mb-3">
-            <label for="userId_index" class="form-label">Identificación de usuario:</label>
-            <input type="text" class="form-control" id="entryUser" placeholder="Ingrese la cedula">
+            <h2 for="userId_index" class="form-label text-center">Ingreso de usuario:</h2>
+            
+        </div> 
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6 text-center">
+                <input type="text" class="form-control form-control-lg text-center" id="entryUser" placeholder="Ingrese la cedula" style="width: 650px;">
+            </div>
         </div>
-        <button type="button" class="btn btn-primary" onclick="newEntry()">Buscar</button>
+        
+            
+        <div class="text-center">
+            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="newEntry(event)">Buscar</button>
+            <script>
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        newEntry(event);
+                    }
+                });
+            </script>
+            <div id="liveAlertPlaceholder"></div>
+        </div>
     </form>
 
 </div>
