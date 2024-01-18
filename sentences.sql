@@ -47,4 +47,3 @@ insert into plans(plan_name, duration) values('10 dias', 15);
 insert into plans(plan_name, duration) values('12 dias', 20);
 insert into plans(plan_name, duration) values('15 dias', 30);
 insert into plans(plan_name, duration) values('otro', null);
-
