@@ -210,6 +210,24 @@ function searchUser() {
             var datafecha = new Date(data[0][13]);
             console.log(`este es el year datafecha ${datafecha.getFullYear()}`);
             userData.innerHTML = "";
+            if (dias) {
+                console.log("entro dias");
+                dias_rest = data[0][14];
+                if(data[0][14]==0){
+                    console.log("entro vencido por frecuencia");
+                    plan_state = "vencido";
+                    displaycontent();
+
+                }else{
+                    console.log("entro activo por frecuencia pero chequeo fecha")
+                    checkdate(data);                  
+                }
+            }else{
+                console.log("entro planes de meses y chequeo fechas");
+                checkdate(data);
+                dias_rest = "N/A";
+            } 
+
             userHead.innerHTML = `
                 <tr>
                     <th>Cedula</th>
@@ -219,8 +237,9 @@ function searchUser() {
                     <th>Direccion</th>
                     <th>plan</th>
                     <th>válido hasta</th>
-                
-                
+                    <th>Estado</th>
+                    <th>Dias restantes</th>
+                </tr>       
                 `;
             userData.innerHTML = `
                 <tr>
@@ -231,27 +250,13 @@ function searchUser() {
                     <td>${data[0][7]}</td>
                     <td>${plan}</td>
                     <td>${datafecha.getFullYear()}-${datafecha.getMonth()}-${datafecha.getDate()}</td>
-                
+                    <td>${plan_state}</td>
+                    <td>${dias_rest}</td>
+                </tr>
+
             `; 
 
-            if (dias) {
-                console.log("entro dias");
-                userHead.innerHTML += `<th>Dias restantes</th> `;
-                userData.innerHTML += `<td>${data[0][14]}</td>`;
-                if(data[0][14]==0){
-                    console.log("entro vencido por frecuencia");
-                    userHead.innerHTML += `<th>Estado</th> </tr>`;    
-                    userData.innerHTML += `<td>vencido</td> </tr>`;
-                    displaycontent();
-
-                }else{
-                    console.log("entro activo por frecuencia pero chequeo fecha")
-                    checkdate(data);                  
-                }
-            }else{
-                console.log("entro planes de meses y chequeo fechas");
-                checkdate(data);
-            }            
+                      
             var userTable = document.getElementById("userTable");
             userTable.style.display = "block";
             searchId = data[0][10];
@@ -270,12 +275,10 @@ function checkdate(data){
     console.log(currentDate);
     console.log(dataDate);
     if (currentDate >= dataDate) {
-        userHead.innerHTML += `<th>Estado</th> </tr>`;    
-        userData.innerHTML += `<td>vencido</td> </tr>`;
+        plan_state = "vencido";  
         displaycontent();
     }else{
-        userHead.innerHTML += `<th>Estado</th> </tr>`;    
-        userData.innerHTML += `<td>activo</td> </tr>`;
+        plan_state = "activo";
     }    
 }
 
