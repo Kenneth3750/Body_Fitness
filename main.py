@@ -160,7 +160,7 @@ def search_user():
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = "SELECT * FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE cedula = (%s)"
+                        sql = "SELECT * FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE cedula = (%s) order by end_plan_date desc limit 6"
                         cursor.execute(sql, user_dni)
                         result = cursor.fetchall()
                         connection.close()
