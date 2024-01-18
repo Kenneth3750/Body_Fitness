@@ -207,8 +207,20 @@ function searchUser() {
             }
 
 
-
+            var datafecha = new Date(data[0][13]);
             userData.innerHTML = "";
+            userHead.innerHTML = `
+                <tr>
+                    <th>Cedula</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th>Direccion</th>
+                    <th>plan</th>
+                    <th>válido hasta</th>
+                </tr>
+                
+                `;
             userData.innerHTML = `
                 <tr>
                     <td>${data[0][4]}</td>
@@ -217,7 +229,7 @@ function searchUser() {
                     <td>${data[0][6]}</td>
                     <td>${data[0][7]}</td>
                     <td>${plan}</td>
-                    <td>${data[0][13]}</td>
+                    <td>${datafecha.getFullYear}-${datafecha.getMonth}-${datafecha.getDate}</td>
                 </tr>
             `; 
 
