@@ -153,6 +153,10 @@ function checklogin(event){
         window.location.href = "index.html";
         }, 500);
        }
+       else{
+        appendAlert('Usuario o contraseña incorrectos', 'danger');
+        hideAlertAfterDelay(5000); 
+       }
     }
 }
 
