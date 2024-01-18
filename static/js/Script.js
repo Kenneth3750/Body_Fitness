@@ -220,3 +220,23 @@ function searchUser() {
         }
     });
 }
+
+function newEntry(){
+    var userIdEntry = {
+        id: $('#entryUser').val()
+    };
+    console.log(userIdEntry);   
+    $.ajax({
+        url: '/index.html',  
+        type: 'POST',
+        data: userIdEntry,
+        success: function(data) {
+            console.log(data);
+            console.log(typeof( data ));
+        
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    })
+}
