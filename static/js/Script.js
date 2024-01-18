@@ -208,6 +208,7 @@ function searchUser() {
 
 
             var datafecha = new Date(data[0][13]);
+            console.log(`este es el year datafecha ${datafecha.getFullYear()}`);
             userData.innerHTML = "";
             userHead.innerHTML = `
                 <tr>
@@ -218,7 +219,7 @@ function searchUser() {
                     <th>Direccion</th>
                     <th>plan</th>
                     <th>válido hasta</th>
-                </tr>
+                
                 
                 `;
             userData.innerHTML = `
@@ -229,18 +230,19 @@ function searchUser() {
                     <td>${data[0][6]}</td>
                     <td>${data[0][7]}</td>
                     <td>${plan}</td>
-                    <td>${datafecha.getFullYear}-${datafecha.getMonth}-${datafecha.getDate}</td>
-                </tr>
+                    <td>${datafecha.getFullYear()}-${datafecha.getMonth()}-${datafecha.getDate()}</td>
+                
             `; 
 
             if (dias) {
                 console.log("entro dias");
-                userHead.innerHTML += `<th>Dias restantes</th>`;
+                userHead.innerHTML += `<th>Dias restantes</th> `;
                 userData.innerHTML += `<td>${data[0][14]}</td>`;
                 if(data[0][14]==0){
                     console.log("entro vencido por frecuencia");
-                    userHead.innerHTML += `<th>Estado</th>`;    
-                    userData.innerHTML += `<td>vencido</td>`;
+                    userHead.innerHTML += `<th>Estado</th> </tr>`;    
+                    userData.innerHTML += `<td>vencido</td> </tr>`;
+                    displaycontent();
 
                 }else{
                     console.log("entro activo por frecuencia pero chequeo fecha")
@@ -268,12 +270,12 @@ function checkdate(data){
     console.log(currentDate);
     console.log(dataDate);
     if (currentDate >= dataDate) {
-        userHead.innerHTML += `<th>Estado</th>`;    
-        userData.innerHTML += `<td>vencido</td>`;
+        userHead.innerHTML += `<th>Estado</th> </tr>`;    
+        userData.innerHTML += `<td>vencido</td> </tr>`;
         displaycontent();
     }else{
-        userHead.innerHTML += `<th>Estado</th>`;    
-        userData.innerHTML += `<td>activo</td>`;
+        userHead.innerHTML += `<th>Estado</th> </tr>`;    
+        userData.innerHTML += `<td>activo</td> </tr>`;
     }    
 }
 
@@ -322,6 +324,7 @@ function renewPlan(){
             console.error('Error:', error);
         }
     })
+    
 }
 
 
