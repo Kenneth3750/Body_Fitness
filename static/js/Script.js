@@ -223,11 +223,11 @@ function searchUser() {
 
             if (dias) {
                 console.log("entro dias");
-                userTable.innerHTML += `<th>Dias restantes</th>`;
+                userHead.innerHTML += `<th>Dias restantes</th>`;
                 userData.innerHTML += `<td>${data[0][14]}</td>`;
                 if(data[0][14]==0){
                     console.log("entro vencido por frecuencia");
-                    userTable.innerHTML += `<th>Estado</th>`;    
+                    userHead.innerHTML += `<th>Estado</th>`;    
                     userData.innerHTML += `<td>vencido</td>`;
 
                 }else{
@@ -256,11 +256,11 @@ function checkdate(data){
     console.log(currentDate);
     console.log(dataDate);
     if (currentDate >= dataDate) {
-        userTable.innerHTML += `<th>Estado</th>`;    
+        userHead.innerHTML += `<th>Estado</th>`;    
         userData.innerHTML += `<td>vencido</td>`;
         displaycontent();
     }else{
-        userTable.innerHTML += `<th>Estado</th>`;    
+        userHead.innerHTML += `<th>Estado</th>`;    
         userData.innerHTML += `<td>activo</td>`;
     }    
 }
