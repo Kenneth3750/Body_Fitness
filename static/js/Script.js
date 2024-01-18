@@ -232,11 +232,11 @@ function searchUser() {
 
                 }else{
                     console.log("entro activo por frecuencia pero chequeo fecha")
-                    checkdate();                  
+                    checkdate(data);                  
                 }
             }else{
                 console.log("entro planes de meses y chequeo fechas");
-                checkdate();
+                checkdate(data);
             }            
             var userTable = document.getElementById("userTable");
             userTable.style.display = "block";
@@ -250,7 +250,7 @@ function searchUser() {
     });
 }
 
-function checkdate(){
+function checkdate(data){
     var currentDate = new Date();
     var dataDate = new Date(data[0][13]);
     console.log(currentDate);
