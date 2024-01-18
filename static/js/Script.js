@@ -243,7 +243,9 @@ function searchUser() {
             searchId = data[0][10];
         },
         error: function(status, error) { 
-            console.error('Error:', error);
+            appendAlert('Usuario no registrado', 'danger');
+            hideAlertAfterDelay(5000); 
+            console.log('Error:', error);
         }
     });
 }
