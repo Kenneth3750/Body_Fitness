@@ -126,32 +126,28 @@
     </div>
 </div>
 
-<div class="container mt-5 ">
-    <form>
+<div class="container mt-5 " onload="proxusers()">
         <div class="mb-3">
-            <h2 for="userId_index" class="form-label text-center">Ingreso de usuario:</h2>
-            
+            <h2 for="userId_index" class="form-label text-center">Usuarios proximos a vencer</h2>      
         </div> 
-        <div class="row justify-content-center mb-3">
-            <div class="col-md-6 text-center">
-                <input type="text" class="form-control form-control-lg text-center" id="entryUser" placeholder="Ingrese la cedula" style="width: 650px;">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6">
+                <div class="mb-5">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Identificación</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Celular</th>
+                                <th scope="col">Fecha de vencimiento</th>
+                                <th scope="col">Frecuencia</th>
+                            </tr>
+                        </thead>
+                        <tbody id="proxusers">
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        
-            
-        <div class="text-center">
-            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="newEntry(event)">Buscar</button>
-            <script>
-                document.addEventListener('keydown', function(event) {
-                    if (event.key === 'Enter') {
-                        newEntry(event);
-                    }
-                });
-            </script>
-            <div id="liveAlertPlaceholder"></div>
-        </div>
-    </form>
-
 </div>
 
 <script src="js/bootstrap.bundle.min.js"></script>
