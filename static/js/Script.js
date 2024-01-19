@@ -345,12 +345,16 @@ function renewPlan(){
         success: function(data) {
             console.log(data);
             console.log(typeof( data ));
-        
+            appendAlert('Usuario registrado correctamente', 'success');
+            hideAlertAfterDelay(3000);
+            var content = document.getElementById("renovar");
+            content.style.display = "none";   
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
         }
     })
+
     
 }
 
