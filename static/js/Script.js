@@ -172,7 +172,7 @@ function searchUser() {
         type: 'POST',
         data: userId,
         success: function(data) {
-            console.log(`la data es ${data}`);
+            console.log(data);
             var userData = document.getElementById("userData");
             userData.innerHTML = "";
             userHead.innerHTML = `
@@ -226,8 +226,8 @@ function searchUser() {
 
                 
                 var datafecha = new Date(data[i][13]);
-                var datafechap = new Date(data[i][15]);
-                console.log(`el data solo sin pasarlo por Date es ${data[i][15]}`)
+                var datafechap = new Date(data[i][12]);
+                console.log(`el data solo sin pasarlo por Date es ${data[i][12]}`)
                 console.log(`este es el year datafecha ${datafecha.getFullYear()}`);
                 console.log(`este es el year datafechap del plan ${i+1} ${datafechap.getFullYear()}`);
 
