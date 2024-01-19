@@ -364,3 +364,5 @@ function displaycontent(){
     var content = document.getElementById("renovar");
     content.style.display = "block";
 }
+
+
