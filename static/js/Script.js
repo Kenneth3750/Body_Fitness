@@ -365,8 +365,24 @@ function displaycontent(){
     content.style.display = "block";
 }
 
-function proxusers(){
-    //aqui va la funcion para mostrar los proximos usuarios a vencer pidiendole los datos a la base de datos
 
+function proxusers(){
+    data_form = {
+        form_id: 'form3'
+    };
+    
+    $.ajax({
+        url: '/index.html',
+        type: 'POST',
+        data: data_form,
+        success: function(data){
+            console.log(data);
+
+        }, 
+        error: function(xhr, status, error){
+            console.error('Error:', error);
+        }
+    })
+    
 
 }

@@ -82,25 +82,47 @@ def index():
 @app.route('/index.html', methods=['POST'])
 def login_data():
     if request.method == 'POST':
-        user = request.form.to_dict()
-        id = user['id']
-        try:
-            connection = database_connection()
-            if connection:
-                with connection.cursor() as cursor:
-                    sql = "SELECT users.id FROM users WHERE users.cedula = (%s)"
-                    cursor.execute(sql, id)
-                    result = cursor.fetchall()
-                    print(result[0][0])
-                    connection.close()
-                    return jsonify(result), 200
-            else:
-                print("Database connection failed")
-                return jsonify({'message': 'Database connection failed'}), 500
-        except Error as e:
-            print( 'Error ' + str(e))
-            return jsonify({'message': 'Error' + str(e)}), 500
-    return jsonify({'message': 'message recieved successfully'}), 200
+        data = request.form.to_dict()
+        form_id = data['form_id']
+        print(form_id)
+        if form_id == 'form3':
+            try:
+                connection = database_connection()
+                if connection:
+                    with connection.cursor() as cursor:
+                        sql = "SELECT users.nombre, users.apellido, users.cedula, user_plans.end_plan_date, user_plans.frequency from users inner join user_plans on users.id = user_plans.user_id where (user_plans.frequency <= 3 or (user_plans.frequency is NULL and ABS(DATEDIFF(user_plans.end_plan_date, CURDATE())) <= 3 ) or ( ABS(DATEDIFF(user_plans.end_plan_date, CURDATE()))  <= 3  and user_plans.frequency is not null ) ) GROUP BY users.cedula, users.nombre, users.apellido, user_plans.end_plan_date, user_plans.frequency order by user_plans.end_plan_date desc;"
+                        cursor.execute(sql)
+                        result = cursor.fetchall()
+                        connection.close()
+                        print(result)
+                        return jsonify(result), 200
+                else:
+                    print("Database connection failed")
+                    return jsonify({'message': 'Database connection failed'}), 500
+            except Error as e:
+                print( 'Error ' + str(e))
+                return jsonify({'message': 'Error' + str(e)}), 500
+            
+        else:
+            user = request.form.to_dict()
+            id = user['id']
+            try:
+                connection = database_connection()
+                if connection:
+                    with connection.cursor() as cursor:
+                        sql = "SELECT users.id FROM users WHERE users.cedula = (%s)"
+                        cursor.execute(sql, id)
+                        result = cursor.fetchall()
+                        print(result[0][0])
+                        connection.close()
+                        return jsonify(result), 200
+                else:
+                    print("Database connection failed")
+                    return jsonify({'message': 'Database connection failed'}), 500
+            except Error as e:
+                print( 'Error ' + str(e))
+                return jsonify({'message': 'Error' + str(e)}), 500
+        
 
 @app.route('/registro.html')
 def registro():
