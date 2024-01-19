@@ -64,6 +64,18 @@
                 white-space: nowrap;
                 -webkit-overflow-scrolling: touch;
             }
+            .fondo{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100vh;
+            background-image: url(../img/background.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: -1;
+            filter: blur(5px);
+            }
         </style>
 
     <link href="{{ url_for('static', filename = ' css/sign-in.css') }}" rel="stylesheet">       
@@ -113,6 +125,7 @@
                 </div>
             </div>
         </nav>
+        <div class="fondo"></div>
         <div class="container">
             <h1>Registro de nuevo usuario</h1>
             <form id = "userForm" action="registro.html" method="post"> 

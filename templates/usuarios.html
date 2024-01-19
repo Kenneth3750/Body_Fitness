@@ -117,19 +117,21 @@
         <h1>Busqueda de Usuario</h1>
         <form>
             <div class="mb-3">
-                <label for="userId" class="form-label">Identificación de usuario:</label>
-                <input type="text" class="form-control" id="userId" placeholder="Ingrese la cedula">
+                <label for="userId" class="form-label mb-3">Identificación de usuario:</label>
+                <div class="d-flex align-items-center">
+                    <input type="text" class="form-control me-5" id="userId" placeholder="Ingrese la cedula" style="width: 500px;" >
+                    <button type="button" class="btn btn-primary" onclick="searchUser()" style="margin-left: 10px;">Buscar</button>
+                </div>      
             </div>
-            <button type="button" class="btn btn-primary mb-3" onclick="searchUser()">Buscar</button>
-            <div id="liveAlertPlaceholder"></div>
+            <div id="liveAlertPlaceholder" class="mb-5"></div>
         </form>
-        <div id="userTable" style="display: none;" class="container-xxl">
+        <div id="userTable" style="display: none;" class="container">
             <h2>Datos del usuario:</h2>
-            <table class="table">
+            <table class="table table-light table-striped">
                 <thead id="userHead">
 
                 </thead>
-                <tbody id="userData">
+                <tbody id="userData" class='table-group-divider'>
                    
                 </tbody>
             </table>
