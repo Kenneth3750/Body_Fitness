@@ -366,6 +366,7 @@ function displaycontent(){
 }
 
 function proxusers(){
+    //aqui va la funcion para mostrar los proximos usuarios a vencer pidiendole los datos a la base de datos
     
 
 }
