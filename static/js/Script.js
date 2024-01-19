@@ -172,62 +172,9 @@ function searchUser() {
         type: 'POST',
         data: userId,
         success: function(data) {
-            console.log(data);
-            let plan = "";
-            let dias = false;
+            console.log(`la data es ${data}`);
             var userData = document.getElementById("userData");
-            switch (data[0][11]) {
-                case 1:
-                    plan = "1 mes";
-                    break;
-                case 2:
-                    plan = "2 meses";
-                    break;
-                case 3:
-                    plan = "3 meses";
-                    break;
-                case 4: 
-                    plan = "6 meses";
-                    break;
-                case 5:
-                    plan = "10 dias";
-                    dias = true;
-                    break;
-                case 6:
-                    plan = "12 dias";
-                    dias = true;
-                    break;
-                case 7:
-                    plan = "15 dias";
-                    dias = true;
-                    break;
-                case 8:
-                    plan = "Otro";
-                    break;
-            }
-
-
-            var datafecha = new Date(data[0][13]);
-            console.log(`este es el year datafecha ${datafecha.getFullYear()}`);
             userData.innerHTML = "";
-            if (dias) {
-                console.log("entro dias");
-                dias_rest = data[0][14];
-                if(data[0][14]==0){
-                    console.log("entro vencido por frecuencia");
-                    plan_state = "vencido";
-                    displaycontent();
-
-                }else{
-                    console.log("entro activo por frecuencia pero chequeo fecha")
-                    checkdate(data);                  
-                }
-            }else{
-                console.log("entro planes de meses y chequeo fechas");
-                checkdate(data);
-                dias_rest = "N/A";
-            } 
-
             userHead.innerHTML = `
                 <tr>
                     <th>Cedula</th>
@@ -235,31 +182,100 @@ function searchUser() {
                     <th>Email</th>
                     <th>Telefono</th>
                     <th>Direccion</th>
-                    <th>plan</th>
-                    <th>válido hasta</th>
+                    <th>Plan</th>
+                    <th>Válido desde</th>
+                    <th>Válido hasta</th>
                     <th>Estado</th>
                     <th>Dias restantes</th>
                 </tr>       
                 `;
-            userData.innerHTML = `
-                <tr>
-                    <td>${data[0][4]}</td>
-                    <td>${data[0][1]} ${data[0][2]}</td>
-                    <td>${data[0][5]}</td>
-                    <td>${data[0][6]}</td>
-                    <td>${data[0][7]}</td>
-                    <td>${plan}</td>
-                    <td>${datafecha.getFullYear()}-${datafecha.getMonth()}-${datafecha.getDate()}</td>
-                    <td>${plan_state}</td>
-                    <td>${dias_rest}</td>
-                </tr>
 
-            `; 
+            console.log(`este es el datalengh ${data.length}`);
+            for (let i = 0; i < data.length; i++) {
+                let plan = "";
+                let dias = false;     
+                switch (data[i][11]) {
+                    case 1:
+                        plan = "1 mes";
+                        break;
+                    case 2:
+                        plan = "2 meses";
+                        break;
+                    case 3:
+                        plan = "3 meses";
+                        break;
+                    case 4: 
+                        plan = "6 meses";
+                        break;
+                    case 5:
+                        plan = "10 dias";
+                        dias = true;
+                        break;
+                    case 6:
+                        plan = "12 dias";
+                        dias = true;
+                        break;
+                    case 7:
+                        plan = "15 dias";
+                        dias = true;
+                        break;
+                    case 8:
+                        plan = "Otro";
+                        break;
+                }
 
-                      
-            var userTable = document.getElementById("userTable");
-            userTable.style.display = "block";
-            searchId = data[0][10];
+                
+                var datafecha = new Date(data[i][13]);
+                var datafechap = new Date(data[i][15]);
+                console.log(`el data solo sin pasarlo por Date es ${data[i][15]}`)
+                console.log(`este es el year datafecha ${datafecha.getFullYear()}`);
+                console.log(`este es el year datafechap del plan ${i+1} ${datafechap.getFullYear()}`);
+
+                
+                if (dias) {
+                    console.log("entro dias");
+                    dias_rest = data[i][14];
+                    if(data[i][14]==0){
+                        console.log("entro vencido por frecuencia");
+                        plan_state = "vencido";
+                        if(i==0){
+                            displaycontent();
+                        }
+                        
+
+                    }else{
+                        console.log("entro activo por frecuencia pero chequeo fecha")
+                        checkdate(data,i);                  
+                    }
+                }else{
+                    console.log("entro planes de meses y chequeo fechas");
+                    checkdate(data,i);
+                    dias_rest = "N/A";
+                } 
+
+                
+                userData.innerHTML += `
+                    <tr>
+                        <td>${data[i][4]}</td>
+                        <td>${data[i][1]} ${data[i][2]}</td>
+                        <td>${data[i][5]}</td>
+                        <td>${data[i][6]}</td>
+                        <td>${data[i][7]}</td>
+                        <td>${plan}</td>
+                        <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${datafechap.getDate()}</td>
+                        <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${datafecha.getDate()}</td>
+                        <td>${plan_state}</td>
+                        <td>${dias_rest}</td>
+                    </tr>
+
+                `; 
+                
+
+                        
+                var userTable = document.getElementById("userTable");
+                userTable.style.display = "block";
+                searchId = data[i][10];
+            }
         },
         error: function(status, error) { 
             appendAlert('Usuario no registrado', 'danger');
@@ -268,15 +284,23 @@ function searchUser() {
         }
     });
 }
-
-function checkdate(data){
+function mes(mes){
+    num_mes=parseInt(mes)+1;   
+    if(num_mes<10){
+        num_mes="0"+num_mes;
+    } 
+    return num_mes;
+}
+function checkdate(data,i){
     var currentDate = new Date();
-    var dataDate = new Date(data[0][13]);
+    var dataDate = new Date(data[i][13]);
     console.log(currentDate);
     console.log(dataDate);
     if (currentDate >= dataDate) {
-        plan_state = "vencido";  
-        displaycontent();
+        plan_state = "vencido";
+        if(i==0){
+            displaycontent();
+        }  
     }else{
         plan_state = "activo";
     }    
