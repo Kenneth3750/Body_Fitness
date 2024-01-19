@@ -365,4 +365,3 @@ function displaycontent(){
     content.style.display = "block";
 }
 
-
