@@ -262,8 +262,8 @@ function searchUser() {
                         <td>${data[i][6]}</td>
                         <td>${data[i][7]}</td>
                         <td>${plan}</td>
-                        <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${datafechap.getDate()}</td>
-                        <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${datafecha.getDate()}</td>
+                        <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${mes(datafechap.getDate())}</td>
+                        <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${mes(datafecha.getDate())}</td>
                         <td>${plan_state}</td>
                         <td>${dias_rest}</td>
                     </tr>
@@ -377,6 +377,29 @@ function proxusers(){
         data: data_form,
         success: function(data){
             console.log(data);
+            
+            var proxuserData = document.getElementById("proxusers");
+           
+            proxuserData.innerHTML = "";
+            for(let i=0; i<data.length; i++){
+                var dataDate = new Date(data[i][3]);
+                let fechaexact = `${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${mes(dataDate.getDate())}`
+                if(data[i][4]==null){
+                    dias_rest = "N/A"
+                }else{
+                    dias_rest = data[i][4]
+                }
+
+                proxuserData.innerHTML += `
+                <tr>
+                    <td>${data[i][0]} ${[i][1]}</td>
+                    <td>${data[i][2]}</td>
+                    <td>${fechaexact}</td>
+                    <td>${dias_rest}</td>
+                </tr>
+                `
+            }
+
 
         }, 
         error: function(xhr, status, error){
