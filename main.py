@@ -4,6 +4,7 @@ import pymysql
 from pymysql import Error
 from decouple import config
 from datetime import datetime, timedelta
+from functions import plan_info
 
 
 #body_fitness server 
@@ -20,7 +21,7 @@ def database_connection():
     except Error as e:
         print("Database unreachable, " + str(e))
         return None
-
+    
 def get_plan_duration(id_plan):
     try:
         connection = database_connection()
@@ -38,37 +39,6 @@ def get_plan_duration(id_plan):
     except Error as e:
         print( 'Error ' + str(e))
         return None
-def plan_info(plan, user):
-    month_plans = [1, 2, 3, 4]
-    day_plans = [5, 6, 7]
-    if plan in month_plans:
-        plan_duration= get_plan_duration(plan)
-        plan_duration = plan_duration[0][0]
-        plan_duration = int(plan_duration)
-
-        end_date = datetime.now() + timedelta(days=30*plan_duration) 
-        end_date = end_date.strftime("%Y-%m-%d")
-        frequency = None
-    elif plan in day_plans:
-        plan_duration= get_plan_duration(plan)
-        plan_duration = plan_duration[0][0]
-        plan_duration = int(plan_duration)
-        end_date = datetime.now() + timedelta(days=plan_duration)
-        end_date = end_date.strftime("%Y-%m-%d")
-        if plan == 5:
-            frequency = 10
-        elif plan == 6:
-            frequency = 12
-        else:
-            frequency = 15
-    else:
-        plan_duration = user['duracion']
-        plan_duration = int(plan_duration)
-        end_date = datetime.now() + timedelta(days = 30*plan_duration)
-        end_date = end_date.strftime("%Y-%m-%d")
-        frequency = None
-    return end_date, frequency
-
 
 
 @app.route('/')
@@ -146,7 +116,7 @@ def form_data():
         user = user_no_empty
         plan = user['plan']
         plan = int(plan)
-        end_date, frequency = plan_info(plan, user)
+        end_date, frequency = plan_info(plan, user, get_plan_duration)
         
         current_date = datetime.now()
         current_date = current_date.strftime("%Y-%m-%d")
@@ -208,7 +178,7 @@ def search_user():
             plan = data['plan']
             int_plan = int(plan)
             user_dni = data['id']
-            end_date, frequency = plan_info(int_plan, data)
+            end_date, frequency = plan_info(int_plan, data, get_plan_duration)
             try:
                 connection = database_connection()
                 if connection:
@@ -226,12 +196,6 @@ def search_user():
                 print( 'Error ' + str(e))
                 return jsonify({'message': 'Error' + str(e)}), 500
         
-
-
-        
-
-
-
 
 
 
