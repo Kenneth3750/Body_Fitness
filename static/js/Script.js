@@ -392,7 +392,7 @@ function proxusers(){
 
                 proxuserData.innerHTML += `
                 <tr>
-                    <td>${data[i][0]} ${[i][1]}</td>
+                    <td>${data[i][0]} ${data[i][1]}</td>
                     <td>${data[i][2]}</td>
                     <td>${fechaexact}</td>
                     <td>${dias_rest}</td>

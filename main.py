@@ -90,7 +90,16 @@ def login_data():
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = "SELECT users.nombre, users.apellido, users.cedula, user_plans.end_plan_date, user_plans.frequency from users inner join user_plans on users.id = user_plans.user_id where (user_plans.frequency <= 3 or (user_plans.frequency is NULL and ABS(DATEDIFF(user_plans.end_plan_date, CURDATE())) <= 3 ) or ( ABS(DATEDIFF(user_plans.end_plan_date, CURDATE()))  <= 3  and user_plans.frequency is not null ) ) GROUP BY users.cedula, users.nombre, users.apellido, user_plans.end_plan_date, user_plans.frequency order by user_plans.end_plan_date desc;"
+                        sql = """SELECT users.nombre, users.apellido, users.cedula, user_plans.end_plan_date, user_plans.frequency
+                                FROM users
+                                INNER JOIN user_plans ON users.id = user_plans.user_id
+                                WHERE (
+                                    (user_plans.frequency <= 3 AND DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
+                                    OR (user_plans.frequency IS NULL AND ABS(DATEDIFF(user_plans.end_plan_date, CURDATE())) <= 3)
+                                    OR (ABS(DATEDIFF(user_plans.end_plan_date, CURDATE())) <= 3 AND user_plans.frequency IS NOT NULL)
+                                )
+                                GROUP BY users.cedula, users.nombre, users.apellido, user_plans.end_plan_date, user_plans.frequency
+                                ORDER BY user_plans.end_plan_date DESC;"""
                         cursor.execute(sql)
                         result = cursor.fetchall()
                         connection.close()
