@@ -1,6 +1,7 @@
 // ajax function to load a user to database
 let tope = 6;
 let searchId;
+let cedula_ver_mas;
 function showAdditionalFields() {
     var planSelect = document.getElementById("plan");
     var additionalFields = document.getElementById("additionalFields");
@@ -44,11 +45,6 @@ function checkform(event){
 function submitWithDelay(event) {
     event.preventDefault();
         submitUserForm();
-        appendAlert('Nuevo usuario registrado exitosamente', 'success');
-        hideAlertAfterDelay(10000); 
-        setTimeout(() => {
-        window.location.reload();
-        }, 5000);
 }
 
 function appendAlert(message, type) {
@@ -116,10 +112,17 @@ function submitUserForm() {
         success: function(data) {
             console.log(data);
             console.log(typeof( data ));
+            appendAlert('Nuevo usuario registrado exitosamente', 'success');
+            hideAlertAfterDelay(10000); 
+            setTimeout(() => {
+            window.location.reload();
+            }, 5000);
             // Puedes manejar la respuesta del servidor aquí
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
+            appendAlert('Error en la base de datos', 'danger');
+            hideAlertAfterDelay(10000);
         }
     });
 
@@ -396,11 +399,12 @@ function proxusers(){
                     <td>${data[i][2]}</td>
                     <td>${fechaexact}</td>
                     <td>${dias_rest}</td>
+                    <th> <button class="btn" onclick="vermasfn(${data[i][2]})"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z " style="fill: #18317d;"/>
+                  </svg></button></th>
                 </tr>
                 `
             }
-
-
         }, 
         error: function(xhr, status, error){
             console.error('Error:', error);
@@ -408,4 +412,25 @@ function proxusers(){
     })
     
 
+}
+function vermasfn(cedula){
+    console.log("entro ver mas fn");
+    localStorage.setItem('ver_mas', true);
+    localStorage.setItem('cedula_ver_mas', cedula);
+    window.location.href="usuarios.html";
+}
+
+function check_ver_mas(){
+    let vermas = localStorage.getItem('ver_mas');
+    let cedula_ver_mas = localStorage.getItem('cedula_ver_mas');
+    console.log("entro check ver mas");
+    console.log(vermas);
+    console.log(cedula_ver_mas);
+    if (vermas == "true"){
+        console.log("entro ver mas");
+        document.getElementById("userId").value = cedula_ver_mas;
+        localStorage.setItem('ver_mas', false);
+        searchUser();
+
+    }
 }

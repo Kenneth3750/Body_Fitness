@@ -7,6 +7,7 @@
         <title>Home</title>
         <link rel="icon" href="/static/img/Logo_Titulo.png">
         <link href=" {{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href=" {{ url_for('static', filename = 'css/icofont.css') }}" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
@@ -28,8 +29,8 @@
             .b-example-divider {
                 width: 100%;
                 height: 3rem;
-                background-color: rgba(0, 0, 0, .1);
-                border: solid rgba(0, 0, 0, .15);
+                background-color: rgba(58, 23, 154, 0.658);
+                border: solid hsla(227, 47%, 34%, 0.15);
                 border-width: 1px 0;
                 box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
             }
@@ -62,6 +63,17 @@
                 white-space: nowrap;
                 -webkit-overflow-scrolling: touch;
             }
+            .fondo_de_la_pag{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100vh;
+            background-image: url(/static/img/background.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: -1;
+            }
         </style>
 
         <link href="{{ url_for('static', filename = ' css/sign-in.css') }}" rel="stylesheet">
@@ -75,13 +87,15 @@
         <title>Home</title>
         <link rel="icon" href="/static/img/Logo_Titulo.png">
         <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/icofont.css" rel="stylesheet">
+        
     </head>
     <body onload = "proxusers()">
+        <div class="fondo_de_la_pag"></div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand" href="#">
                     <img src="/static/img/logo.png" alt="Logo" width="100" height="30" class="d-inline-block align-text-top">
-                    
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -109,7 +123,8 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+            </nav>
+
 <div class="container mt-5">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-6">
@@ -126,6 +141,7 @@
     </div>
 </div>
 
+
 <div class="container mt-5 ">
         <div class="mb-3">
             <h2 for="userId_index" class="form-label text-center">Usuarios proximos a vencer</h2>      
@@ -140,6 +156,8 @@
                                 <th scope="col">Identificación</th>
                                 <th scope="col">Fecha de vencimiento</th>
                                 <th scope="col">Días restantes</th>
+                                <th scope="col">ver más</th>
+                                
                             </tr>
                         </thead>
                         <tbody id="proxusers">
