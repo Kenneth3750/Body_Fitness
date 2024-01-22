@@ -366,7 +366,7 @@ function newEntry(event){
                 }
                 if(contenido!=""){
                     appendAlert(contenido, 'success');
-                    hideAlertAfterDelay(30000);
+                    hideAlertAfterDelay(10000);
                 }
                 
             }
