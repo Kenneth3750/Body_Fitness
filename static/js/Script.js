@@ -248,11 +248,11 @@ function searchUser() {
 
                     }else{
                         console.log("entro activo por frecuencia pero chequeo fecha")
-                        checkdate(data,i);                  
+                        checkdate(data[i][13]);                  
                     }
                 }else{
                     console.log("entro planes de meses y chequeo fechas");
-                    checkdate(data,i);
+                    checkdate(data[i][13]);
                     dias_rest = "N/A";
                 } 
                 function dias2(dias){
@@ -308,9 +308,9 @@ function dias(dias){
     } 
     return num_dia;
 }
-function checkdate(data,i){
+function checkdate(data){
     var currentDate = new Date();
-    var dataDate = new Date(data[i][13]);
+    var dataDate = new Date(data);
     console.log(currentDate);
     console.log(dataDate);
     if (currentDate >= dataDate) {
@@ -337,12 +337,39 @@ function newEntry(event){
         success: function(data) {
             console.log(data);
             console.log(typeof( data ));
-            appendAlert('Acceso permitido', 'success');
-            hideAlertAfterDelay(5000);
+            var contenido= "";
+            if(data.length==0){
+                contenido = "Usuario no registrado";
+                appendAlert(contenido, 'danger');
+                hideAlertAfterDelay(5000);
+            }else{
+                if(data[0][2]==null){
+                    var currentDate = new Date();
+                    var dataDate = new Date(data[0][3]);
+                    if (currentDate >= dataDate) {
+                        appendAlert("Su plan se encuentra vencido", 'danger');
+                        hideAlertAfterDelay(5000);
+                    }
+                    else{
+                        var diff = Math.abs(currentDate - dataDate);
+                        contenido = `Bienvenido ${data[0][0]} ${data[0][1]}, Tiempo de plan restante: ${Math.ceil(diff / (1000 * 60 * 60 * 24))} dias`;           
+                    }           
+                }else{
+                    if(data[0][2]==0){
+                        appendAlert("Su plan se encuentra vencido", 'danger');
+                        hideAlertAfterDelay(5000);
+                    }else{
+                        var dataDate = new Date(data[0][3]);
+                        contenido = `Bienvenido ${data[0][0]} ${data[0][1]}, Tiempo de plan restante: ${data[0][2]} dias hasta el ${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${dias(dataDate.getDate())} `;
+                    }
+                }
+                appendAlert(contenido, 'success');
+                hideAlertAfterDelay(5000);
+            }
         
         },
         error: function(xhr, status, error) { 
-            appendAlert('Usuario no registrado', 'danger');
+            appendAlert('error de ingreso', 'danger');
             hideAlertAfterDelay(5000);
             console.error('Error:', error);
         }
