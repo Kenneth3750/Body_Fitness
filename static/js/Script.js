@@ -364,8 +364,11 @@ function newEntry(event){
                         contenido = `Bienvenido ${data[0][0]} ${data[0][1]}, Tiempo de plan restante: ${data[0][2]} dias hasta el ${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${dias(dataDate.getDate())} `;
                     }
                 }
-                appendAlert(contenido, 'success');
-                hideAlertAfterDelay(30000);
+                if(contenido!=""){
+                    appendAlert(contenido, 'success');
+                    hideAlertAfterDelay(30000);
+                }
+                
             }
         
         },
