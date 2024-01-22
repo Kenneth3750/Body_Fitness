@@ -394,31 +394,37 @@ function proxusers(){
         data: data_form,
         success: function(data){
             console.log(data);
+            console.log(data.length);
+            if(data.length==0){
+                var proxuserTitle = document.getElementById("proxtitle");
+                proxuserTitle.innerHTML = "No hay usuarios proximos a vencer";
+            }else{
+                document.getElementById("proxtable").style.display = "block";
+                var proxuserData = document.getElementById("proxusers");
             
-            var proxuserData = document.getElementById("proxusers");
-           
-            proxuserData.innerHTML = "";
-            for(let i=0; i<data.length; i++){
-                var dataDate = new Date(data[i][3]);
-                let fechaexact = `${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${dias(dataDate.getDate())}`
-                if(data[i][4]==null){
-                    dias_rest = "N/A"
-                }else{
-                    dias_rest = data[i][4]
-                }
+                proxuserData.innerHTML = "";
+                for(let i=0; i<data.length; i++){
+                    var dataDate = new Date(data[i][3]);
+                    let fechaexact = `${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${dias(dataDate.getDate())}`
+                    if(data[i][4]==null){
+                        dias_rest = "N/A"
+                    }else{
+                        dias_rest = data[i][4]
+                    }
 
-                proxuserData.innerHTML += `
-                <tr>
-                    <td>${data[i][0]} ${data[i][1]}</td>
-                    <td>${data[i][2]}</td>
-                    <td>${fechaexact}</td>
-                    <td>${dias_rest}</td>
-                    <th> <button class="btn" onclick="vermasfn(${data[i][2]})"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z " style="fill: #18317d;"/>
-                  </svg></button></th>
-                </tr>
-                `
-            }
+                    proxuserData.innerHTML += `
+                    <tr>
+                        <td>${data[i][0]} ${data[i][1]}</td>
+                        <td>${data[i][2]}</td>
+                        <td>${fechaexact}</td>
+                        <td>${dias_rest}</td>
+                        <th> <button class="btn" onclick="vermasfn(${data[i][2]})"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z " style="fill: #18317d;"/>
+                    </svg></button></th>
+                    </tr>
+                    `
+                }
+        }
         }, 
         error: function(xhr, status, error){
             console.error('Error:', error);
