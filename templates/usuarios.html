@@ -132,15 +132,17 @@
             <div class="mb-3">
                 <label for="userId" class="form-label mb-3">Identificación de usuario:</label>
                 <div class="d-flex align-items-center">
+                    <div>
                     <input type="text" class="form-control me-5" id="userId" placeholder="Ingrese la cedula" style="width: 500px;" >
-                    <button type="button" class="btn btn-primary" onclick="searchUser()" style="margin-left: 10px;">Buscar</button>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="searchUser(event)" style="margin-left: 10px;">Buscar</button>
                     <script>
                         document.addEventListener('keydown', function(event) {
                             if (event.key === 'Enter') {
-                              searchUser();
+                              searchUser(event);
                             }
                         });
-                      </script>
+                    </script>
                 </div>      
             </div>
             
