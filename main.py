@@ -90,22 +90,22 @@ def login_data():
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = "SELECT user_id, frequency, end_plan_date FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE cedula = (%s) order by end_plan_date desc limit 1"
-                        cursor.execute(sql, user_dni)
-                        result = cursor.fetchall()
-                        user_id = result[0][0]
-                        if result[0][1]:
-                            sql = "UPDATE user_plans SET frequency = frequency - 1 WHERE user_id = (%s) and end_plan_date = (%s)"
-                            values = (result[0][0], result[0][2]) 
-                            cursor.execute(sql,values)
-                            connection.commit()
-                        sql = "SELECT users.nombre, users.apellido, user_plans.frequency, user_plans.end_plan_date FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE user_id = (%s) order by end_plan_date desc limit 1"
-                        values = (user_id)
+                        sql = "SELECT users.nombre, users.apellido, user_plans.frequency, user_plans.end_plan_date, user_id FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE cedula = (%s) order by end_plan_date desc limit 1"
+                        values = (user_dni)
                         cursor.execute(sql, values)
                         result = cursor.fetchall()
-                      
+                        data = result
+                        user_id = result[0][4]
+                        frequency = result[0][2]
+                        end_date = result[0][3]
+                        if frequency:
+                            sql = "UPDATE user_plans SET frequency = frequency - 1 WHERE user_id = (%s) and end_plan_date = (%s)"
+                            values = (user_id, end_date) 
+                            cursor.execute(sql,values)
+                            connection.commit()
                         connection.close()
-                        return jsonify(result), 200
+                        print(data)
+                        return jsonify(data), 200
             except Error as e:
                 print( 'Error ' + str(e))
                 return jsonify({'message': 'Error' + str(e)}), 500
