@@ -248,11 +248,11 @@ function searchUser() {
 
                     }else{
                         console.log("entro activo por frecuencia pero chequeo fecha")
-                        checkdate(data[i][13]);                  
+                        checkdate(data[i][13],i);                  
                     }
                 }else{
                     console.log("entro planes de meses y chequeo fechas");
-                    checkdate(data[i][13]);
+                    checkdate(data[i][13],i);
                     dias_rest = "N/A";
                 } 
                 function dias2(dias){
@@ -308,7 +308,7 @@ function dias(dias){
     } 
     return num_dia;
 }
-function checkdate(data){
+function checkdate(data,i){
     var currentDate = new Date();
     var dataDate = new Date(data);
     console.log(currentDate);
