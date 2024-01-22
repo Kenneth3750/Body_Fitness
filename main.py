@@ -60,13 +60,16 @@ def login_data():
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = """SELECT users.nombre, users.apellido, users.cedula, user_plans.end_plan_date, user_plans.frequency
+                        sql ="""SELECT users.nombre, users.apellido, users.cedula, user_plans.end_plan_date, user_plans.frequency
                                 FROM users
-                                INNER JOIN user_plans ON users.id = user_plans.user_id
+                                INNER JOIN ( select * from user_plans where (user_id, start_plan_date) in (select user_id, max(start_plan_date) from user_plans group by user_id)) as user_plans
+                                ON users.id = user_plans.user_id
                                 WHERE (
                                     (user_plans.frequency <= 3 AND DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
-                                    OR (user_plans.frequency IS NULL AND ABS(DATEDIFF(user_plans.end_plan_date, CURDATE())) <= 3)
-                                    OR (ABS(DATEDIFF(user_plans.end_plan_date, CURDATE())) <= 3 AND user_plans.frequency IS NOT NULL)
+                                    OR (user_plans.frequency IS NULL AND DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 0 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > -30)
+                                    OR (user_plans.frequency IS NULL AND DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 3 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
+                                    OR (DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 3 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 AND user_plans.frequency IS NOT NULL)
+                                    OR (DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 0 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > -30 AND user_plans.frequency IS NOT NULL)
                                 )
                                 GROUP BY users.cedula, users.nombre, users.apellido, user_plans.end_plan_date, user_plans.frequency
                                 ORDER BY user_plans.end_plan_date DESC;"""
