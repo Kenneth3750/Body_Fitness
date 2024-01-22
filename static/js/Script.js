@@ -164,7 +164,8 @@ function checklogin(event){
     }
 }
 
-function searchUser() {
+function searchUser(event) {
+    event.preventDefault();
     var userId = {
         id: $('#userId').val(),
         form_id: 'form1'
@@ -483,7 +484,7 @@ function check_ver_mas(){
         console.log("entro ver mas");
         document.getElementById("userId").value = cedula_ver_mas;
         localStorage.setItem('ver_mas', false);
-        searchUser();
+        searchUser(event);
 
     }
 }
