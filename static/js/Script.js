@@ -337,6 +337,8 @@ function newEntry(event){
         success: function(data) {
             console.log(data);
             console.log(typeof( data ));
+            appendAlert('Acceso permitido', 'success');
+            hideAlertAfterDelay(5000);
         
         },
         error: function(xhr, status, error) { 
