@@ -255,7 +255,13 @@ function searchUser() {
                     checkdate(data,i);
                     dias_rest = "N/A";
                 } 
-
+                function dias2(dias){
+                    num_dia=parseInt(dias);   
+                    if(num_dia<10){
+                        num_dia="0"+num_dia;
+                    } 
+                    return num_dia;
+                }
                 
                 userData.innerHTML += `
                     <tr>
@@ -265,8 +271,8 @@ function searchUser() {
                         <td>${data[i][6]}</td>
                         <td>${data[i][7]}</td>
                         <td>${plan}</td>
-                        <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${dias(datafechap.getDate())}</td>
-                        <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${dias(datafecha.getDate())}</td>
+                        <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${dias2(datafechap.getDate())}</td>
+                        <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${dias2(datafecha.getDate())}</td>
                         <td>${plan_state}</td>
                         <td>${dias_rest}</td>
                     </tr>
@@ -294,6 +300,7 @@ function mes(mes){
     } 
     return num_mes;
 }
+
 function dias(dias){
     num_dia=parseInt(dias);   
     if(num_dia<10){
