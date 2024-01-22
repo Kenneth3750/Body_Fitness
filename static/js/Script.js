@@ -265,8 +265,8 @@ function searchUser() {
                         <td>${data[i][6]}</td>
                         <td>${data[i][7]}</td>
                         <td>${plan}</td>
-                        <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${mes(datafechap.getDate())}</td>
-                        <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${mes(datafecha.getDate())}</td>
+                        <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${dias(datafechap.getDate())}</td>
+                        <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${dias(datafecha.getDate())}</td>
                         <td>${plan_state}</td>
                         <td>${dias_rest}</td>
                     </tr>
@@ -293,6 +293,13 @@ function mes(mes){
         num_mes="0"+num_mes;
     } 
     return num_mes;
+}
+function dias(dias){
+    num_dia=parseInt(dias);   
+    if(num_dia<10){
+        num_dia="0"+num_dia;
+    } 
+    return num_dia;
 }
 function checkdate(data,i){
     var currentDate = new Date();
@@ -386,7 +393,7 @@ function proxusers(){
             proxuserData.innerHTML = "";
             for(let i=0; i<data.length; i++){
                 var dataDate = new Date(data[i][3]);
-                let fechaexact = `${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${mes(dataDate.getDate())}`
+                let fechaexact = `${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${dias(dataDate.getDate())}`
                 if(data[i][4]==null){
                     dias_rest = "N/A"
                 }else{
