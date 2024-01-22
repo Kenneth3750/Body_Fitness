@@ -342,14 +342,14 @@ function newEntry(event){
             if(data.length==0){
                 contenido = "Usuario no registrado";
                 appendAlert(contenido, 'danger');
-                hideAlertAfterDelay(5000);
+                hideAlertAfterDelay(30000);
             }else{
                 if(data[0][2]==null){
                     var currentDate = new Date();
                     var dataDate = new Date(data[0][3]);
                     if (currentDate >= dataDate) {
                         appendAlert("Su plan se encuentra vencido", 'danger');
-                        hideAlertAfterDelay(5000);
+                        hideAlertAfterDelay(30000);
                     }
                     else{
                         var diff = Math.abs(currentDate - dataDate);
@@ -358,20 +358,20 @@ function newEntry(event){
                 }else{
                     if(data[0][2]==0){
                         appendAlert("Su plan se encuentra vencido", 'danger');
-                        hideAlertAfterDelay(5000);
+                        hideAlertAfterDelay(30000);
                     }else{
                         var dataDate = new Date(data[0][3]);
                         contenido = `Bienvenido ${data[0][0]} ${data[0][1]}, Tiempo de plan restante: ${data[0][2]} dias hasta el ${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${dias(dataDate.getDate())} `;
                     }
                 }
                 appendAlert(contenido, 'success');
-                hideAlertAfterDelay(5000);
+                hideAlertAfterDelay(30000);
             }
         
         },
         error: function(xhr, status, error) { 
             appendAlert('error de ingreso', 'danger');
-            hideAlertAfterDelay(5000);
+            hideAlertAfterDelay(30000);
             console.error('Error:', error);
         }
     })
