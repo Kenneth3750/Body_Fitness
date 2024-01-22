@@ -82,7 +82,7 @@ function submitForm() {
         contentType: "application/json",
         success: function(response) {
             console.log("Data sent successfully");
-            // Handle the response from the server
+           
         },
         error: function(error) {
             console.error("Error sending data:", error);
@@ -120,7 +120,7 @@ function submitUserForm() {
             // Puedes manejar la respuesta del servidor aquí
         },
         error: function(xhr, status, error) {
-            console.error('Error:', error);
+            console.error("Error en la base de datos: " + error);
             appendAlert('Error en la base de datos', 'danger');
             hideAlertAfterDelay(10000);
         }

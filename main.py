@@ -149,7 +149,7 @@ def form_data():
             return jsonify({'message': 'Database connection failed'}), 500
     except Error as e:
         print( 'Error ' + str(e), 500)
-        return jsonify({'message': 'Error' + str(e)}), 500
+        return jsonify({'message': 'Error' + str(e)})
     
 
 
