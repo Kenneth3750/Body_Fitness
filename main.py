@@ -54,7 +54,6 @@ def login_data():
     if request.method == 'POST':
         data = request.form.to_dict()
         form_id = data['form_id']
-        print(form_id)
         if form_id == 'form3':
             try:
                 connection = database_connection()
@@ -85,22 +84,28 @@ def login_data():
                 print( 'Error ' + str(e))
                 return jsonify({'message': 'Error' + str(e)}), 500
             
-        else:
-            user = request.form.to_dict()
-            id = user['id']
+        elif form_id == 'form4':
+            user_dni = data['id']
             try:
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = "SELECT users.id FROM users WHERE users.cedula = (%s)"
-                        cursor.execute(sql, id)
+                        sql = "SELECT user_id, frequency, end_plan_date FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE cedula = (%s) order by end_plan_date desc limit 1"
+                        cursor.execute(sql, user_dni)
                         result = cursor.fetchall()
-                        print(result[0][0])
+                        user_id = result[0][0]
+                        if result[0][1]:
+                            sql = "UPDATE user_plans SET frequency = frequency - 1 WHERE user_id = (%s) and end_plan_date = (%s)"
+                            values = (result[0][0], result[0][2]) 
+                            cursor.execute(sql,values)
+                            connection.commit()
+                        sql = "SELECT users.nombre, users.apellido, user_plans.frequency, user_plans.end_plan_date FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE user_id = (%s) order by end_plan_date desc limit 1"
+                        values = (user_id)
+                        cursor.execute(sql, values)
+                        result = cursor.fetchall()
+                      
                         connection.close()
                         return jsonify(result), 200
-                else:
-                    print("Database connection failed")
-                    return jsonify({'message': 'Database connection failed'}), 500
             except Error as e:
                 print( 'Error ' + str(e))
                 return jsonify({'message': 'Error' + str(e)}), 500

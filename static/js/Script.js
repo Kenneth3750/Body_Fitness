@@ -328,6 +328,7 @@ function newEntry(event){
     event.preventDefault();
     var userIdEntry = {
         id: $('#entryUser').val(),
+        form_id: 'form4'
     };
     console.log(userIdEntry);   
     $.ajax({
