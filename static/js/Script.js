@@ -45,11 +45,6 @@ function checkform(event){
 function submitWithDelay(event) {
     event.preventDefault();
         submitUserForm();
-        appendAlert('Nuevo usuario registrado exitosamente', 'success');
-        hideAlertAfterDelay(10000); 
-        setTimeout(() => {
-        window.location.reload();
-        }, 5000);
 }
 
 function appendAlert(message, type) {
@@ -117,10 +112,17 @@ function submitUserForm() {
         success: function(data) {
             console.log(data);
             console.log(typeof( data ));
+            appendAlert('Nuevo usuario registrado exitosamente', 'success');
+            hideAlertAfterDelay(10000); 
+            setTimeout(() => {
+            window.location.reload();
+            }, 5000);
             // Puedes manejar la respuesta del servidor aquí
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
+            appendAlert('Error en la base de datos', 'danger');
+            hideAlertAfterDelay(10000);
         }
     });
 
