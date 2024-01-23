@@ -465,9 +465,10 @@ function newEntry(event){
         
         },
         error: function(xhr, status, error) { 
-            appendAlert('error de ingreso', 'danger');
-            hideAlertAfterDelay(30000);
+            appendAlert('Usuario no registrado', 'danger');
+            hideAlertAfterDelay(10000);
             console.error('Error:', error);
+            document.getElementById("entryUser").value = "";
         }
     })
 }
