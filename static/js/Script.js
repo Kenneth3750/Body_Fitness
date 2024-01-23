@@ -461,6 +461,7 @@ function newEntry(event){
                 }
                 
             }
+            document.getElementById("entryUser").value = "";
         
         },
         error: function(xhr, status, error) { 
@@ -508,6 +509,8 @@ function displaycontent(){
 
 
 function proxusers(){
+    document.getElementById("entryUser").focus();
+
     data_form = {
         form_id: 'form3'
     };
