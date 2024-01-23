@@ -526,14 +526,3 @@ function usuarios_activos(){
         }
     });
 }
-
-
-
-
-<<<<<<< Updated upstream
-=======
-
-    
-
-}
->>>>>>> Stashed changes
