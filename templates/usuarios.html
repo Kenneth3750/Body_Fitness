@@ -175,35 +175,7 @@
         </div>
 
         <script>
-            // Calculate the number of pages based on the number of lines
-            var numLines = document.getElementById('userData').getElementsByTagName('tr').length;
-            var numPages = Math.ceil(numLines / 12);
-
-            // Create pagination links
-            var userTabs = document.getElementById('userTabs');
-            for (var i = 2; i <= numPages; i++) {
-                var pageLink = document.createElement('a');
-                pageLink.classList.add('nav-link');
-                pageLink.setAttribute('data-bs-toggle', 'tab');
-                pageLink.href = '#page' + i;
-                pageLink.textContent = 'Page ' + i;
-                userTabs.appendChild(pageLink);
-            }
-
-            // Create additional pages
-            var userTabContent = document.getElementById('userTabContent');
-            for (var i = 2; i <= numPages; i++) {
-                var pageDiv = document.createElement('div');
-                pageDiv.classList.add('tab-pane', 'fade');
-                pageDiv.id = 'page' + i;
-                var table = document.createElement('table');
-                table.classList.add('table', 'table-light', 'table-striped');
-                var tbody = document.createElement('tbody');
-                tbody.classList.add('table-group-divider');
-                table.appendChild(tbody);
-                pageDiv.appendChild(table);
-                userTabContent.appendChild(pageDiv);
-            }
+           
         </script>
     </div>
     <div class="container" id="liveAlertPlaceholder"></div>

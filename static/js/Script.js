@@ -171,6 +171,7 @@ function checklogin(event){
 }
 
 function table_data_Users(data) {
+
     console.log(data);
     var userData = document.getElementById("userData");
     userData.innerHTML = "";
@@ -283,6 +284,69 @@ function table_data_Users(data) {
         var userTable = document.getElementById("userTable");
         userTable.style.display = "block";
         searchId = data[i][10];
+    }
+    
+    var numLines = document.getElementById('userData').getElementsByTagName('tr').length;
+    var numPages = Math.ceil(numLines / 12);
+    console.log('Num pages es ' + numPages);
+    console.log('numlines es ' + numLines);
+
+    var userTabs = document.getElementById('userTabs');
+    if (numPages === 1) {
+        // Remove additional pages
+        var userTabContent = document.getElementById('userTabContent');
+        var pageDivs = userTabContent.getElementsByClassName('tab-pane');
+        for (var i = 1; i < pageDivs.length; i++) {
+            userTabContent.removeChild(pageDivs[i]);
+        }
+        // Remove page links
+        var pageLinks = userTabs.getElementsByClassName('nav-link');
+        for (var i = 1; i < pageLinks.length; i++) {
+            userTabs.removeChild(pageLinks[i]);
+        }
+    } else {
+        for (var i = 2; i <= numPages; i++) {
+            var pageLink = document.createElement('a');
+            pageLink.classList.add('nav-link');
+            pageLink.setAttribute('data-bs-toggle', 'tab');
+            pageLink.href = '#page' + i;
+            pageLink.textContent = 'Page ' + i;
+            userTabs.appendChild(pageLink);
+        }
+
+        // Create additional pages
+        var userTabContent = document.getElementById('userTabContent');
+        for (var i = 2; i <= numPages; i++) {
+            var pageDiv = document.createElement('div');
+            pageDiv.classList.add('tab-pane', 'fade');
+            pageDiv.id = 'page' + i;
+            var table = document.createElement('table');
+            table.classList.add('table', 'table-light', 'table-striped');
+            var tbody = document.createElement('tbody');
+            tbody.classList.add('table-group-divider');
+            table.appendChild(tbody);
+            pageDiv.appendChild(table);
+            userTabContent.appendChild(pageDiv);
+        }
+
+        // Move data to additional pages
+        var userData = document.getElementById('userData');
+        var rows = userData.getElementsByTagName('tr');
+        for (var i = 12; i < rows.length; i++) {
+            var pageIndex = Math.ceil((i + 1) / 12);
+            var pageTable = document.getElementById('page' + pageIndex).getElementsByTagName('tbody')[0];
+            pageTable.appendChild(rows[i]);
+        }
+
+        // Clone the table header for each page
+        var tableHeader = document.getElementById('userHead');
+        var userTabContent = document.getElementById('userTabContent');
+        var pageDivs = userTabContent.getElementsByClassName('tab-pane');
+        for (var i = 1; i < pageDivs.length; i++) {
+            var pageTable = pageDivs[i].getElementsByTagName('table')[0];
+            var clonedHeader = tableHeader.cloneNode(true);
+            pageTable.insertBefore(clonedHeader, pageTable.firstChild);
+        }
     }
 
 }
