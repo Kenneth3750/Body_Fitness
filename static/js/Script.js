@@ -310,7 +310,7 @@ function table_data_Users(data) {
             pageLink.classList.add('nav-link');
             pageLink.setAttribute('data-bs-toggle', 'tab');
             pageLink.href = '#page' + i;
-            pageLink.textContent = 'Page ' + i;
+            pageLink.textContent = 'Página ' + i;
             userTabs.appendChild(pageLink);
         }
 
