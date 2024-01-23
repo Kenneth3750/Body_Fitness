@@ -527,7 +527,13 @@ function usuarios_activos(){
         data: data,
         success: function(response){
             console.log(response);
-
+            console.log(response.length);
+            if(response.length==0){
+                appendAlert('no hay usuarios en la base de datos', 'danger');
+                hideAlertAfterDelay(5000);
+            }else{
+                table_data_Users(response);
+            }
         },
         error: function(xhr, status, error){
             console.error('Error:', error);
