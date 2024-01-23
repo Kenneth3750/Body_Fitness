@@ -120,9 +120,15 @@ function submitUserForm() {
             // Puedes manejar la respuesta del servidor aquí
         },
         error: function(xhr, status, error) {
-            console.error("Error en la base de datos: " + error);
-            appendAlert('Error en la base de datos', 'danger');
-            hideAlertAfterDelay(10000);
+            console.error('Error:', xhr.status);
+            console.error("Error en la base de datos: ", error);
+            if (xhr.status === 493) {
+                appendAlert('La cédula ya se encuentra registrada', 'danger');
+                hideAlertAfterDelay(10000);
+            }else{
+                appendAlert('Error en la base de datos', 'danger');
+                hideAlertAfterDelay(10000);
+            }
         }
     });
 
@@ -191,6 +197,7 @@ function searchUser(event) {
                     <th>Válido hasta</th>
                     <th>Estado</th>
                     <th>Dias restantes</th>
+                    <th>Último ingreso</th>
                 </tr>       
                 `;
 
@@ -231,6 +238,7 @@ function searchUser(event) {
                 
                 var datafecha = new Date(data[i][13]);
                 var datafechap = new Date(data[i][12]);
+                var ultimoIngreso = new Date(data[i][17]);
                 console.log(`el data solo sin pasarlo por Date es ${data[i][12]}`)
                 console.log(`este es el year datafecha ${datafecha.getFullYear()}`);
                 console.log(`este es el year datafechap del plan ${i+1} ${datafechap.getFullYear()}`);
@@ -276,6 +284,7 @@ function searchUser(event) {
                         <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${dias2(datafecha.getDate())}</td>
                         <td>${plan_state}</td>
                         <td>${dias_rest}</td>
+                        <td>${ultimoIngreso.getFullYear()}-${mes(ultimoIngreso.getMonth())}-${dias2(ultimoIngreso.getDate())}</td>
                     </tr>
 
                 `; 

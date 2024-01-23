@@ -103,9 +103,15 @@ def login_data():
                             values = (user_id, end_date) 
                             cursor.execute(sql,values)
                             connection.commit()
-                        connection.close()
-                        print(data)
-                        return jsonify(data), 200
+                        else:
+                            current_date = datetime.now()
+                            sql = "UPDATE user_plans SET last_entry = (%s) WHERE user_id = (%s) and end_plan_date = (%s)"
+                            values = (current_date,user_id, end_date) 
+                            cursor.execute(sql,values)
+                            connection.commit()
+                    connection.close()
+                    print(data)
+                    return jsonify(data), 200
             except Error as e:
                 print( 'Error ' + str(e))
                 return jsonify({'message': 'Error' + str(e)}), 500
@@ -149,8 +155,11 @@ def form_data():
             return jsonify({'message': 'Database connection failed'}), 500
     except Error as e:
         print( 'Error ' + str(e), 500)
-        return jsonify({'message': 'Error' + str(e)})
-    
+        if "Duplicate entry" in str(e) and "for key 'users.cedula'" in str(e):
+            return jsonify({'message': 'Error' + str(e)}), 493
+        else:
+            return jsonify({'message': 'Error' + str(e)}), 500
+        
 
 
 @app.route('/usuarios.html')

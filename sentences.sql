@@ -11,9 +11,9 @@ create table if not exists users(
     apellido varchar(50) not null,
     edad int not null,
     cedula varchar(20) not null unique,
-    correo varchar(50) not null unique,
-    celular varchar(20) not null unique,
-    direccion varchar(100),
+    correo varchar(50) not null ,
+    celular varchar(20) not null,
+    direccion varchar(100) not null,
     created_at datetime default current_timestamp
 );
 
@@ -32,6 +32,7 @@ create table if not exists user_plans(
     frequency int, 
     payment_day date,
     payment_status enum('pendiente', 'pagado') default 'pendiente',
+    last_entry datetime default current_timestamp on update current_timestamp,
     foreign key (user_id) references users(id) on delete cascade,
     foreign key (plan_id) references plans(id) on delete cascade
 );
