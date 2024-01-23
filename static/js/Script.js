@@ -287,6 +287,7 @@ function table_data_Users(data) {
     }
     
     var numLines = document.getElementById('userData').getElementsByTagName('tr').length;
+    document.getElementById('num_elementos').innerHTML = `Número de elementos: ${numLines}`;
     var numPages = Math.ceil(numLines / 12);
     console.log('Num pages es ' + numPages);
     console.log('numlines es ' + numLines);
