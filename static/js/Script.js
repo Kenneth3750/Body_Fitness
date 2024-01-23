@@ -502,7 +502,7 @@ function check_ver_mas(){
     let vermas = localStorage.getItem('ver_mas');
     let cedula_ver_mas = localStorage.getItem('cedula_ver_mas');
     console.log("entro check ver mas");
-    console.log(vermas);
+    console.log('vermas '+ vermas);
     console.log(cedula_ver_mas);
     if (vermas == "true"){
         console.log("entro ver mas");
@@ -510,6 +510,9 @@ function check_ver_mas(){
         localStorage.setItem('ver_mas', false);
         searchUser(event);
 
+    }else{
+        console.log("no entro ver mas por tanto muestro usuarios activos");
+        usuarios_activos();
     }
 }
 
