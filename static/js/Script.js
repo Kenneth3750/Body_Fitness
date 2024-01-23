@@ -170,6 +170,125 @@ function checklogin(event){
     }
 }
 
+function table_data_Users(data) {
+    console.log(data);
+    var userData = document.getElementById("userData");
+    userData.innerHTML = "";
+    userHead.innerHTML = `
+        <tr>
+            <th>Cedula</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Telefono</th>
+            <th>Direccion</th>
+            <th>Plan</th>
+            <th>Válido desde</th>
+            <th>Válido hasta</th>
+            <th>Estado</th>
+            <th>Dias restantes</th>
+            <th>Último ingreso</th>
+        </tr>       
+        `;
+
+    console.log(`este es el datalengh ${data.length}`);
+    for (let i = 0; i < data.length; i++) {
+        let plan = "";
+        let dias = false;     
+        switch (data[i][11]) {
+            case 1:
+                plan = "1 mes";
+                break;
+            case 2:
+                plan = "2 meses";
+                break;
+            case 3:
+                plan = "3 meses";
+                break;
+            case 4: 
+                plan = "6 meses";
+                break;
+            case 5:
+                plan = "10 dias";
+                dias = true;
+                break;
+            case 6:
+                plan = "12 dias";
+                dias = true;
+                break;
+            case 7:
+                plan = "15 dias";
+                dias = true;
+                break;
+            case 8:
+                plan = "Otro";
+                break;
+        }
+
+        
+        var datafecha = new Date(data[i][13]);
+        var datafechap = new Date(data[i][12]);
+        var ultimoIngreso = new Date(data[i][17]);
+        console.log(`el data solo sin pasarlo por Date es ${data[i][12]}`)
+        console.log(`este es el year datafecha ${datafecha.getFullYear()}`);
+        console.log(`este es el year datafechap del plan ${i+1} ${datafechap.getFullYear()}`);
+
+        
+        if (dias) {
+            console.log("entro dias");
+            dias_rest = data[i][14];
+            if(data[i][14]==0){
+                console.log("entro vencido por frecuencia");
+                plan_state = "vencido";
+                if(i==0){
+                    displaycontent();
+                }
+                
+
+            }else{
+                console.log("entro activo por frecuencia pero chequeo fecha")
+                checkdate(data[i][13],i);                  
+            }
+        }else{
+            console.log("entro planes de meses y chequeo fechas");
+            checkdate(data[i][13],i);
+            dias_rest = "N/A";
+        } 
+        function dias2(dias){
+            num_dia=parseInt(dias);   
+            if(num_dia<10){
+                num_dia="0"+num_dia;
+            } 
+            return num_dia;
+        }
+        
+        userData.innerHTML += `
+            <tr>
+                <td>${data[i][4]}</td>
+                <td>${data[i][1]} ${data[i][2]}</td>
+                <td>${data[i][5]}</td>
+                <td>${data[i][6]}</td>
+                <td>${data[i][7]}</td>
+                <td>${plan}</td>
+                <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${dias2(datafechap.getDate())}</td>
+                <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${dias2(datafecha.getDate())}</td>
+                <td>${plan_state}</td>
+                <td>${dias_rest}</td>
+                <td>${ultimoIngreso.getFullYear()}-${mes(ultimoIngreso.getMonth())}-${dias2(ultimoIngreso.getDate())}</td>
+            </tr>
+
+        `; 
+        
+
+                
+        var userTable = document.getElementById("userTable");
+        userTable.style.display = "block";
+        searchId = data[i][10];
+    }
+
+}
+
+
+
 function searchUser(event) {
     event.preventDefault();
     var userId = {
@@ -181,121 +300,17 @@ function searchUser(event) {
         url: '/usuarios.html',  // Adjust the URL according to your Flask server route
         type: 'POST',
         data: userId,
-        success: function(data) {
+        success: function(data){
             console.log(data);
-            var userData = document.getElementById("userData");
-            userData.innerHTML = "";
-            userHead.innerHTML = `
-                <tr>
-                    <th>Cedula</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                    <th>Direccion</th>
-                    <th>Plan</th>
-                    <th>Válido desde</th>
-                    <th>Válido hasta</th>
-                    <th>Estado</th>
-                    <th>Dias restantes</th>
-                    <th>Último ingreso</th>
-                </tr>       
-                `;
-
-            console.log(`este es el datalengh ${data.length}`);
-            for (let i = 0; i < data.length; i++) {
-                let plan = "";
-                let dias = false;     
-                switch (data[i][11]) {
-                    case 1:
-                        plan = "1 mes";
-                        break;
-                    case 2:
-                        plan = "2 meses";
-                        break;
-                    case 3:
-                        plan = "3 meses";
-                        break;
-                    case 4: 
-                        plan = "6 meses";
-                        break;
-                    case 5:
-                        plan = "10 dias";
-                        dias = true;
-                        break;
-                    case 6:
-                        plan = "12 dias";
-                        dias = true;
-                        break;
-                    case 7:
-                        plan = "15 dias";
-                        dias = true;
-                        break;
-                    case 8:
-                        plan = "Otro";
-                        break;
-                }
-
-                
-                var datafecha = new Date(data[i][13]);
-                var datafechap = new Date(data[i][12]);
-                var ultimoIngreso = new Date(data[i][17]);
-                console.log(`el data solo sin pasarlo por Date es ${data[i][12]}`)
-                console.log(`este es el year datafecha ${datafecha.getFullYear()}`);
-                console.log(`este es el year datafechap del plan ${i+1} ${datafechap.getFullYear()}`);
-
-                
-                if (dias) {
-                    console.log("entro dias");
-                    dias_rest = data[i][14];
-                    if(data[i][14]==0){
-                        console.log("entro vencido por frecuencia");
-                        plan_state = "vencido";
-                        if(i==0){
-                            displaycontent();
-                        }
-                        
-
-                    }else{
-                        console.log("entro activo por frecuencia pero chequeo fecha")
-                        checkdate(data[i][13],i);                  
-                    }
-                }else{
-                    console.log("entro planes de meses y chequeo fechas");
-                    checkdate(data[i][13],i);
-                    dias_rest = "N/A";
-                } 
-                function dias2(dias){
-                    num_dia=parseInt(dias);   
-                    if(num_dia<10){
-                        num_dia="0"+num_dia;
-                    } 
-                    return num_dia;
-                }
-                
-                userData.innerHTML += `
-                    <tr>
-                        <td>${data[i][4]}</td>
-                        <td>${data[i][1]} ${data[i][2]}</td>
-                        <td>${data[i][5]}</td>
-                        <td>${data[i][6]}</td>
-                        <td>${data[i][7]}</td>
-                        <td>${plan}</td>
-                        <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${dias2(datafechap.getDate())}</td>
-                        <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${dias2(datafecha.getDate())}</td>
-                        <td>${plan_state}</td>
-                        <td>${dias_rest}</td>
-                        <td>${ultimoIngreso.getFullYear()}-${mes(ultimoIngreso.getMonth())}-${dias2(ultimoIngreso.getDate())}</td>
-                    </tr>
-
-                `; 
-                
-
-                        
-                var userTable = document.getElementById("userTable");
-                userTable.style.display = "block";
-                searchId = data[i][10];
+            console.log(data.length);
+            if(data.length==0){
+                appendAlert('Usuario no registrado', 'danger');
+                hideAlertAfterDelay(5000);
+            }else{
+                table_data_Users(data);
             }
         },
+        
         error: function(status, error) { 
             appendAlert('Usuario no registrado', 'danger');
             hideAlertAfterDelay(5000); 
@@ -496,4 +511,8 @@ function check_ver_mas(){
         searchUser(event);
 
     }
+}
+
+function usuarios_activos(){
+
 }
