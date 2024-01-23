@@ -150,15 +150,58 @@
         </form>
         <div id="userTable" style="display: none;" class="container">
             <h2>Datos del usuario:</h2>
-            <table class="table table-light table-striped">
-                <thead id="userHead">
+            <div class="table-responsive">
+                <ul class="nav nav-tabs" id="userTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#page1">Page 1</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="userTabContent">
+                    <div class="tab-pane fade show active" id="page1">
+                        <table class="table table-light table-striped">
+                            <thead id="userHead">
 
-                </thead>
-                <tbody id="userData" class='table-group-divider'>
-                   
-                </tbody>
-            </table>
+                            </thead>
+                            <tbody id="userData" class='table-group-divider'>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <script>
+            // Calculate the number of pages based on the number of lines
+            var numLines = document.getElementById('userData').getElementsByTagName('tr').length;
+            var numPages = Math.ceil(numLines / 12);
+
+            // Create pagination links
+            var userTabs = document.getElementById('userTabs');
+            for (var i = 2; i <= numPages; i++) {
+                var pageLink = document.createElement('a');
+                pageLink.classList.add('nav-link');
+                pageLink.setAttribute('data-bs-toggle', 'tab');
+                pageLink.href = '#page' + i;
+                pageLink.textContent = 'Page ' + i;
+                userTabs.appendChild(pageLink);
+            }
+
+            // Create additional pages
+            var userTabContent = document.getElementById('userTabContent');
+            for (var i = 2; i <= numPages; i++) {
+                var pageDiv = document.createElement('div');
+                pageDiv.classList.add('tab-pane', 'fade');
+                pageDiv.id = 'page' + i;
+                var table = document.createElement('table');
+                table.classList.add('table', 'table-light', 'table-striped');
+                var tbody = document.createElement('tbody');
+                tbody.classList.add('table-group-divider');
+                table.appendChild(tbody);
+                pageDiv.appendChild(table);
+                userTabContent.appendChild(pageDiv);
+            }
+        </script>
     </div>
     <div class="container" id="liveAlertPlaceholder"></div>
     <div class="container" id="renovar" style="display: none;">

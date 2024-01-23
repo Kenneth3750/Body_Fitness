@@ -526,7 +526,3 @@ function usuarios_activos(){
         }
     });
 }
-
-
-
-
