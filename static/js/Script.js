@@ -533,6 +533,8 @@ function usuarios_activos(){
                 hideAlertAfterDelay(5000);
             }else{
                 table_data_Users(response);
+                document.getElementById("tabla_titulo").innerHTML = "Usuarios activos";
+                document.getElementById("renovar").style.display = "none";
             }
         },
         error: function(xhr, status, error){
