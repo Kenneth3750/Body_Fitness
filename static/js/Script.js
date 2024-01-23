@@ -517,9 +517,14 @@ function check_ver_mas(){
 }
 
 function usuarios_activos(){
+    data = {
+        form_id: 'defaultForm'
+    };
+   
     $.ajax({
         url: '/usuarios.html',
         type: 'POST',
+        data: data,
         success: function(response){
             console.log(response);
 
