@@ -99,18 +99,19 @@ def login_data():
                         frequency = result[0][2]
                         end_date = result[0][3]
                         last_entry = result[0][5]
-                        print(last_entry)
-                        if frequency:
-                            sql = "UPDATE user_plans SET frequency = frequency - 1 WHERE user_id = (%s) and end_plan_date = (%s)"
-                            values = (user_id, end_date) 
-                            cursor.execute(sql,values)
-                            connection.commit()
-                        else:
-                            current_date = datetime.now()
-                            sql = "UPDATE user_plans SET last_entry = (%s) WHERE user_id = (%s) and end_plan_date = (%s)"
-                            values = (current_date,user_id, end_date) 
-                            cursor.execute(sql,values)
-                            connection.commit()
+                        last_entry = last_entry.strftime("%Y-%m-%d")
+                        if last_entry != datetime.now().strftime("%Y-%m-%d"):
+                            if frequency:
+                                sql = "UPDATE user_plans SET frequency = frequency - 1 WHERE user_id = (%s) and end_plan_date = (%s)"
+                                values = (user_id, end_date) 
+                                cursor.execute(sql,values)
+                                connection.commit()
+                            else:
+                                current_date = datetime.now()
+                                sql = "UPDATE user_plans SET last_entry = (%s) WHERE user_id = (%s) and end_plan_date = (%s)"
+                                values = (current_date,user_id, end_date) 
+                                cursor.execute(sql,values)
+                                connection.commit()
                     connection.close()
                     return jsonify(data), 200
             except Error as e:
@@ -213,7 +214,23 @@ def search_user():
             except Error as e:
                 print( 'Error ' + str(e))
                 return jsonify({'message': 'Error' + str(e)}), 500
-        
+            #default_form --> view active plans
+        else:
+            try:
+                connection = database_connection()
+                if connection:
+                    with connection.cursor() as cursor:
+                        sql = """select * 
+                                from users 
+                                inner join (select * from user_plans where (user_id, start_plan_date) in (select user_id, max(start_plan_date) from user_plans group by user_id)) as user_plans 
+                                on users.id = user_plans.user_id;"""
+                        cursor.execute(sql)
+                        result = cursor.fetchall()
+                        connection.close()
+                        return jsonify(result), 200
+            except Error as e:
+                print( 'Error ' + str(e))
+                return jsonify({'message': 'Error' + str(e)}), 500
 
 
 

@@ -497,3 +497,17 @@ function check_ver_mas(){
 
     }
 }
+
+function usuarios_activos(){
+    $.ajax({
+        url: '/usuarios.html',
+        type: 'POST',
+        success: function(response){
+            console.log(response);
+
+        },
+        error: function(xhr, status, error){
+            console.error('Error:', error);
+        }
+    });
+}
