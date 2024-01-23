@@ -308,6 +308,7 @@ function searchUser(event) {
                 hideAlertAfterDelay(5000);
             }else{
                 table_data_Users(data);
+                document.getElementById("tabla_titulo").innerHTML = "Datos del usuario";
             }
         },
         
