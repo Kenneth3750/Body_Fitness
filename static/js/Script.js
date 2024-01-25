@@ -512,6 +512,8 @@ function displaycontent(){
 
 function proxusers(){
     document.getElementById("entryUser").focus();
+    
+
 
     data_form = {
         form_id: 'form3'
@@ -570,6 +572,7 @@ function vermasfn(cedula){
 }
 
 function check_ver_mas(){
+    
     let vermas = localStorage.getItem('ver_mas');
     let cedula_ver_mas = localStorage.getItem('cedula_ver_mas');
     console.log("entro check ver mas");
