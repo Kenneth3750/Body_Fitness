@@ -445,7 +445,7 @@ function newEntry(event){
                     }
                     else{
                         var diff = Math.abs(currentDate - dataDate);
-                        contenido = `Bienvenido ${data[0][0]} ${data[0][1]}, Tiempo restante: ${Math.ceil(diff / (1000 * 60 * 60 * 24))} dias`;           
+                        contenido = `Bienvenido(a) ${data[0][0]} ${data[0][1]}, Tiempo restante: ${Math.ceil(diff / (1000 * 60 * 60 * 24))} dias`;           
                     }           
                 }else{
                     if(data[0][2]==0){
@@ -453,7 +453,7 @@ function newEntry(event){
                         hideAlertAfterDelay(10000);
                     }else{
                         var dataDate = new Date(data[0][3]);
-                        contenido = `Bienvenido ${data[0][0]} ${data[0][1]}, Tiempo restante: ${data[0][2]} dias hasta el ${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${dias(dataDate.getDate())} `;
+                        contenido = `Bienvenido(a) ${data[0][0]} ${data[0][1]}, Tiempo restante: ${data[0][2]} dias hasta el ${dataDate.getFullYear()}-${mes(dataDate.getMonth())}-${dias(dataDate.getDate())} `;
                     }
                 }
                 if(contenido!=""){
