@@ -293,17 +293,18 @@ function table_data_Users(data) {
         console.log('numlines es ' + numLines);
 
         var userTabs = document.getElementById('userTabs');
-        if (numPages === 1) {
+        if (numPages == 1) {
             // Remove additional pages
             var userTabContent = document.getElementById('userTabContent');
             var pageDivs = userTabContent.getElementsByClassName('tab-pane');
-            for (var i = 1; i < pageDivs.length; i++) {
-                userTabContent.removeChild(pageDivs[i]);
+            while (pageDivs.length > 1) {
+                userTabContent.removeChild(pageDivs[1]);
             }
             // Remove page links
+            var userTabs = document.getElementById('userTabs');
             var pageLinks = userTabs.getElementsByClassName('nav-link');
-            for (var i = 1; i < pageLinks.length; i++) {
-                userTabs.removeChild(pageLinks[i]);
+            while (pageLinks.length > 1) {
+                userTabs.removeChild(pageLinks[1]);
             }
         } else {
             for (var i = 2; i <= numPages; i++) {
