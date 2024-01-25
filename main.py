@@ -44,6 +44,49 @@ def get_plan_duration(id_plan):
 @app.route('/')
 def login():
     return render_template('login.html')
+@app.route('/ingreso.html')
+def ingreso():
+    return render_template('ingreso.html')
+
+@app.route('/ingreso.html', methods=['POST'])
+def login_user():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        form_id = data['form_id']
+        if form_id == 'form4':
+            user_dni = data['id']
+            try:
+                connection = database_connection()
+                if connection:
+                    with connection.cursor() as cursor:
+                        sql = "SELECT users.nombre, users.apellido, user_plans.frequency, user_plans.end_plan_date, user_plans.user_id, user_plans.last_entry FROM users INNER JOIN user_plans on users.id = user_plans.user_id WHERE cedula = (%s) order by end_plan_date desc limit 1"
+                        values = (user_dni)
+                        cursor.execute(sql, values)
+                        result = cursor.fetchall()
+                        data = result
+                        user_id = result[0][4]
+                        frequency = result[0][2]
+                        end_date = result[0][3]
+                        last_entry = result[0][5]
+                        last_entry = last_entry.strftime("%Y-%m-%d")
+                        if last_entry != datetime.now().strftime("%Y-%m-%d"):
+                            if frequency:
+                                sql = "UPDATE user_plans SET frequency = frequency - 1 WHERE user_id = (%s) and end_plan_date = (%s)"
+                                values = (user_id, end_date) 
+                                cursor.execute(sql,values)
+                                connection.commit()
+                            else:
+                                current_date = datetime.now()
+                                sql = "UPDATE user_plans SET last_entry = (%s) WHERE user_id = (%s) and end_plan_date = (%s)"
+                                values = (current_date,user_id, end_date) 
+                                cursor.execute(sql,values)
+                                connection.commit()
+                    connection.close()
+                    return jsonify(data), 200
+            except Error as e:
+                print( 'Error ' + str(e))
+                return jsonify({'message': 'Error' + str(e)}), 500
+
 
 @app.route('/index.html')
 def index():
