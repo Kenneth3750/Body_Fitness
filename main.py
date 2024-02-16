@@ -11,6 +11,14 @@ from functions import plan_info
 
 app = Flask(__name__)
 
+# Configuración de Flask-Mail para Gmail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = config('mail')
+app.config['MAIL_PASSWORD'] = config('mail_pass')
+
+
 def database_connection():
     try:
         connection = pymysql.connect(host=config('host'),
@@ -241,12 +249,16 @@ def search_user():
             int_plan = int(plan)
             user_dni = data['id']
             end_date, frequency = plan_info(int_plan, data, get_plan_duration)
+            pago = data['pago']
             try:
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = "INSERT INTO user_plans (user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) VALUES (%s, %s, %s, %s, %s, %s)"
-                        values = (user_dni, plan, datetime.now(), end_date, frequency, None)
+                        sql = "INSERT INTO user_plans (user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                        if pago == 'pendiente':
+                            values = (user_dni, plan, datetime.now(), end_date, frequency, None, pago)
+                        else:
+                            values = (user_dni, plan, datetime.now(), end_date, frequency, datetime.now(), pago)
                         cursor.execute(sql, values)
                         connection.commit()
                         connection.close()
