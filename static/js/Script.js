@@ -180,8 +180,8 @@ function dataUserPending(user_id,id){
 function goToConfirm(){
     let user_id = localStorage.getItem('user_id');
     let identification = localStorage.getItem('identification');
-    console.log(user_id);
-    console.log(start_plan);
+    console.log("entro a gotoconfirm"+user_id);
+    console.log(identification);
     window.location.href = "confirm.html";
 
 }
