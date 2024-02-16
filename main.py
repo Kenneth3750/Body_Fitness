@@ -281,11 +281,14 @@ def search_user():
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = """select * 
-                                from users 
-                                inner join (select * from user_plans where (user_id, start_plan_date) in (select user_id, max(start_plan_date) from user_plans group by user_id)) as user_plans 
-                                on users.id = user_plans.user_id
-                                where DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 and (user_plans.frequency is NULL or user_plans.frequency > 0);"""
+                        sql = """SELECT *
+                                 FROM users
+                                 INNER JOIN (SELECT *
+                                             FROM user_plans
+                                             WHERE (user_id, start_plan_date) IN (SELECT user_id, MAX(start_plan_date) FROM user_plans GROUP BY user_id)) AS user_plans
+                                 ON users.id = user_plans.user_id
+                                 WHERE DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 AND (user_plans.frequency IS NULL OR user_plans.frequency > 0)
+                                 ORDER BY CASE WHEN user_plans.payment_status = 'pendiente' THEN 0 ELSE 1 END;"""
                         cursor.execute(sql)
                         result = cursor.fetchall()
                         connection.close()
