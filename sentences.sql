@@ -31,7 +31,7 @@ create table if not exists user_plans(
     end_plan_date date not null,
     frequency int, 
     payment_day date,
-    payment_status enum('pendiente', 'pagado') default 'pendiente',
+    payment_status enum('pendiente', 'pagado'),
     last_entry datetime default current_timestamp on update current_timestamp,
     foreign key (user_id) references users(id) on delete cascade,
     foreign key (plan_id) references plans(id) on delete cascade
