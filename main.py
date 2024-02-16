@@ -187,6 +187,7 @@ def form_data():
         
         current_date = datetime.now()
         current_date = current_date.strftime("%Y-%m-%d")
+        pago = user['pago']
         
     try:
         connection = database_connection()
@@ -196,8 +197,8 @@ def form_data():
                 values = (user['nombre'], user['apellido'], user['edad'], user['cedula'], user['correo'], user['telefono'], user['direccion'])
                 cursor.execute(sql,values)
                 user_id = cursor.lastrowid
-                sql = "INSERT INTO user_plans (user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) VALUES (%s, %s, %s, %s, %s, %s)"
-                values = (user_id, plan, current_date, end_date, frequency, datetime.now()) 
+                sql = "INSERT INTO user_plans (user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                values = (user_id, plan, current_date, end_date, frequency, datetime.now(), pago) 
                 cursor.execute(sql,values)
                 
             connection.commit()

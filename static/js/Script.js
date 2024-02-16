@@ -94,14 +94,18 @@ function submitForm() {
 function checkPayment(){
    let checkBox=document.getElementById("pagoRealizado");
    if(checkBox.checked){
-       return 'pagado';
+        console.log('pagado');
+        return 'pagado';
    }
     else{
+        console.log('pendiente');
         return 'pendiente';
     }
 }
 
 function submitUserForm() {
+    let userPago = checkPayment();
+    console.log(`pago: ${userPago}`);
     var formData = {
         nombre: $('#nombre').val(),
         apellido: $('#apellido').val(),
@@ -113,9 +117,8 @@ function submitUserForm() {
         plan: $('#plan').val(),
         duracion: $('#duracion').val(), // Agrega campos adicionales según sea necesario
         valor: $('#valor').val(),
-        pago: checkPayment()
+        pago: userPago
     };
-
     $.ajax({
         url: '/registro.html',  // Ajusta la URL según la ruta de tu servidor Flask
         type: 'POST',
