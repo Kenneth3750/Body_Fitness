@@ -182,7 +182,7 @@ function goToConfirm(){
     let identification = localStorage.getItem('identification');
     console.log("entro a gotoconfirm"+user_id);
     console.log(identification);
-    window.location.href = "confirm.html";
+    confirmPayment(user_id, identification);
 
 }
 function table_data_Users(data) {
@@ -661,6 +661,7 @@ function appendAlert2(message, type) {
 
 
 function confirmPayment(user_id, row_id){
+    console.log("entro a confirmar pago");
     data = {
         form_id: 'formPay',
         user: user_id,
