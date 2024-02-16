@@ -55,28 +55,28 @@ insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) va
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Carlos', 'Gomez', 30, '456789123', 'carlosgomez@example.com', '4567891239', '789 Oak St'); 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Laura', 'Rodriguez', 35, '321654987', 'laurarodriguez@example.com', '0321654987', '789 Maple St'); 
 
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(1, 1, '2023-01-01', '2023-03-03', NULL, '2023-01-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(1, 1, '2023-04-01', '2023-05-31', NULL, '2023-04-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(1, 6, '2023-06-01', '2023-07-31', 0, '2023-04-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(1, 1, '2023-12-20', '2024-01-20', NULL, '2023-12-20');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(2, 1, '2023-11-01', '2024-01-01', NULL, '2023-11-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(3, 5, '2024-01-03', '2024-01-18', 1, '2023-12-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(3, 1, '2024-01-20', '2024-02-20', NULL, '2023-12-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(4, 7, '2024-01-03', '2024-02-03', 0, '2023-12-01');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-01-01', '2023-03-03', NULL, '2023-01-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-04-01', '2023-05-31', NULL, '2023-04-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 6, '2023-06-01', '2023-07-31', 0, '2023-04-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-12-20', '2024-01-20', NULL, '2023-12-20', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(2, 1, '2023-11-01', '2024-01-01', NULL, '2023-11-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 5, '2024-01-03', '2024-01-18', 1, '2023-12-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 1, '2024-01-20', '2024-02-20', NULL, '2023-12-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(4, 7, '2024-01-03', '2024-02-03', 0, '2023-12-01', 'pendiente');
 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('John', 'Smith', 28, '9876543210', 'johnsmith@example.com', '9876543210', '789 Oak St'); 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Emily', 'Johnson', 32, '4567891230', 'emilyjohnson@example.com', '4567891230', '456 Elm St'); 
 
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(5, 2, '2023-02-01', '2023-04-01', NULL, '2023-02-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(5, 3, '2023-05-01', '2023-08-01', NULL, '2023-05-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(6, 4, '2023-03-01', '2023-09-01', 0, '2023-03-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(6, 5, '2023-10-01', '2024-01-01', NULL, '2023-10-01');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(5, 2, '2023-02-01', '2023-04-01', NULL, '2023-02-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(5, 3, '2023-05-01', '2023-08-01', NULL, '2023-05-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(6, 4, '2023-03-01', '2023-09-01', 0, '2023-03-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(6, 5, '2023-10-01', '2024-01-01', NULL, '2023-10-01', 'pagado');
 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Sarah', 'Davis', 23, '1357924680', 'sarahdavis@example.com', '1357924680', '789 Oak St'); 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Michael', 'Wilson', 29, '2468013579', 'michaelwilson@example.com', '2468013579', '456 Elm St'); 
 
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(7, 1, '2023-01-01', '2023-03-01', NULL, '2023-01-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(7, 2, '2023-04-01', '2023-06-01', NULL, '2023-04-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(8, 3, '2023-02-01', '2023-05-01', NULL, '2023-02-01');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day) values(8, 4, '2023-06-01', '2023-12-01', 0, '2023-06-01');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(7, 1, '2023-01-01', '2023-03-01', NULL, '2023-01-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(7, 2, '2023-04-01', '2023-06-01', NULL, '2023-04-01', 'pendiente');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(8, 3, '2023-02-01', '2023-05-01', NULL, '2023-02-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(8, 4, '2023-06-01', '2023-12-01', 0, '2023-06-01', 'pendiente');
 

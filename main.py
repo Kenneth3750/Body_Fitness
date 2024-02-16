@@ -257,6 +257,24 @@ def search_user():
             except Error as e:
                 print( 'Error ' + str(e))
                 return jsonify({'message': 'Error' + str(e)}), 500
+            #formPay --> Confirm payment for an user
+        elif data['form_id'] == 'formPay':
+            user_id = data['user']
+            start_plan_date = data['start_plan_date']
+            try:
+                connection = database_connection()
+                if connection:
+                    with connection.cursor() as cursor:
+                        sql = "UPDATE user_plans SET payment_day = (%s) WHERE user_id = (%s) and start_plan_date = (%s)"
+                        values = (datetime.now(), user_id, start_plan_date)
+                        cursor.execute(sql, values)
+                        connection.commit()
+                        connection.close()
+                        return jsonify({'message': 'Payment confirmed successfully'}), 200
+                else:
+                    return jsonify({'message': 'Database connection failed'}), 500
+            except Error as e:
+                return jsonify({'message': 'Error' + str(e)}), 500
             #default_form --> view active plans
         else:
             try:
