@@ -169,8 +169,25 @@ function checklogin(event){
        }
     }
 }
+function dataUserPending(user_id,id){
+    console.log(user_id);
+    console.log(id);
+    localStorage.setItem('user_id', user_id);
+    localStorage.setItem('identification', id);
+}
 
+
+function goToConfirm(){
+    let user_id = localStorage.getItem('user_id');
+    let identification = localStorage.getItem('identification');
+    console.log(user_id);
+    console.log(start_plan);
+    window.location.href = "confirm.html";
+
+}
 function table_data_Users(data) {
+   
+    
 
     console.log(data);
     var userData = document.getElementById("userData");
@@ -256,12 +273,13 @@ function table_data_Users(data) {
             dias_rest = "N/A";
         } 
         function dias2(dias){
-            num_dia=parseInt(dias);   
+            num_dia=parseInt(dias)+1;   
             if(num_dia<10){
                 num_dia="0"+num_dia;
             } 
             return num_dia;
         }
+        const startPlanDate= `${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${dias2(datafechap.getDate())}`;
         
         userData.innerHTML += `
             <tr>
@@ -271,7 +289,7 @@ function table_data_Users(data) {
                 <td>${data[i][6]}</td>
                 <td>${data[i][7]}</td>
                 <td>${plan}</td>
-                <td>${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${dias2(datafechap.getDate())}</td>
+                <td>${startPlanDate}</td>
                 <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${dias2(datafecha.getDate())}</td>
                 <td>${plan_state}</td>
                 <td>${dias_rest}</td>
@@ -279,7 +297,7 @@ function table_data_Users(data) {
                 <td>
                     <div style="display: flex; align-items: center;">
                         <span>${data[i][16]}</span>
-                        <button class="btn" onclick="confirmPayment()">
+                        <button class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="dataUserPending(${data[i][10]},${data[i][9]})">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" style="fill: #66a324;"/>
                             </svg>
@@ -405,7 +423,7 @@ function mes(mes){
 }
 
 function dias(dias){
-    num_dia=parseInt(dias);   
+    num_dia=parseInt(dias)+1;   
     if(num_dia<10){
         num_dia="0"+num_dia;
     } 
