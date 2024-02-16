@@ -91,6 +91,16 @@ function submitForm() {
     });
 }
 
+function checkPayment(){
+   let checkBox=document.getElementById("pagoRealizado");
+   if(checkBox.checked){
+       return 'pagado';
+   }
+    else{
+        return 'pendiente';
+    }
+}
+
 function submitUserForm() {
     var formData = {
         nombre: $('#nombre').val(),
@@ -102,7 +112,8 @@ function submitUserForm() {
         direccion: $('#direccion').val(),
         plan: $('#plan').val(),
         duracion: $('#duracion').val(), // Agrega campos adicionales según sea necesario
-        valor: $('#valor').val()
+        valor: $('#valor').val(),
+        pago: checkPayment()
     };
 
     $.ajax({
@@ -530,6 +541,7 @@ function renewPlan(){
         id: searchId,
         plan: $('#plan').val(),
         duracion: $('#duracion').val(),
+        pago: checkPayment(),
         form_id: 'form2'
     };
     console.log(newPlan);   
