@@ -265,7 +265,7 @@ def search_user():
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = "UPDATE user_plans SET payment_day = (%s) WHERE user_id = (%s) and user_plans.id = (%s)"
+                        sql = "UPDATE user_plans SET payment_day = (%s), payment_status = 'pagado' WHERE user_id = (%s) and user_plans.id = (%s)"
                         values = (datetime.now(), user_id, row_id)
                         cursor.execute(sql, values)
                         connection.commit()
