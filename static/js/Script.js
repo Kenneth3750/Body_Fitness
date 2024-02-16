@@ -633,3 +633,26 @@ function appendAlert2(message, type) {
     `;
     alertPlaceholder.append(wrapper);
 }
+
+
+function confirmPayment(user_id, start_plan){
+    data = {
+        form_id: 'formPay',
+        user: user_id,
+        start_plan_date: start_plan
+    }
+
+    $.ajax({
+        url: '/usuarios.html',
+        type: 'POST',
+        data: data,
+        success: function(response){
+            console.log(response);
+            appendAlert('Pago confirmado', 'success');
+            hideAlertAfterDelay(5000);
+        },
+        error: function(xhr, status, error){
+            console.error('Error:', error);
+        }   
+    })
+}
