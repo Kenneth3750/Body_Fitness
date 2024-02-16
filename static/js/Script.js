@@ -183,8 +183,37 @@ function goToConfirm(){
     console.log("entro a gotoconfirm"+user_id);
     console.log(identification);
     confirmPayment(user_id, identification);
+    setTimeout(() => {
+        window.location.reload();
+        }, 2000);
+   
 
 }
+
+
+function pruebaPagoPendiente(payment,user_id,identification){
+    if (payment == "pendiente"){
+        return `
+        <div style="display: flex; align-items: center;">
+            <span>${payment}</span>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="dataUserPending(${user_id},${identification})">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" style="fill: #66a324;"/>
+                </svg>
+            </button>
+        </div> 
+        `;}
+    else{
+        return `
+        <div style="display: flex; align-items: center;">
+        <span>${payment}</span>
+        </div>       
+        `;
+    }
+
+}
+
+
 function table_data_Users(data) {
    
     
@@ -295,14 +324,7 @@ function table_data_Users(data) {
                 <td>${dias_rest}</td>
                 <td>${ultimoIngreso.getFullYear()}-${mes(ultimoIngreso.getMonth())}-${dias2(ultimoIngreso.getDate())}</td>
                 <td>
-                    <div style="display: flex; align-items: center;">
-                        <span>${data[i][16]}</span>
-                        <button class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="dataUserPending(${data[i][10]},${data[i][9]})">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" style="fill: #66a324;"/>
-                            </svg>
-                        </button>
-                    </div>
+                    ${pruebaPagoPendiente(data[i][16],data[i][10],data[i][9])}
                 </td>
                 </tr>
 
@@ -673,9 +695,9 @@ function confirmPayment(user_id, row_id){
         type: 'POST',
         data: data,
         success: function(response){
+            document.getElementById("bodyModal").innerHTML = "Pago actualizado exitosamente";
             console.log(response);
-            appendAlert('Pago confirmado', 'success');
-            hideAlertAfterDelay(5000);
+            
         },
         error: function(xhr, status, error){
             console.error('Error:', error);
