@@ -61,7 +61,7 @@ insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequen
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-12-20', '2024-01-20', NULL, '2023-12-20', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(2, 1, '2023-11-01', '2024-01-01', NULL, '2023-11-01', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 5, '2024-01-03', '2024-01-18', 1, '2023-12-01', 'pagado');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 1, '2024-01-20', '2024-02-20', NULL, '2023-12-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 1, '2024-01-20', '2024-02-20', NULL, '2023-12-01', 'pendiente');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(4, 7, '2024-01-03', '2024-02-03', 0, '2023-12-01', 'pendiente');
 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('John', 'Smith', 28, '9876543210', 'johnsmith@example.com', '9876543210', '789 Oak St'); 

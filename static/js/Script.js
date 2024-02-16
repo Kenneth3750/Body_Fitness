@@ -660,11 +660,11 @@ function appendAlert2(message, type) {
 }
 
 
-function confirmPayment(user_id, start_plan){
+function confirmPayment(user_id, row_id){
     data = {
         form_id: 'formPay',
         user: user_id,
-        start_plan_date: start_plan
+        row: row_id
     }
 
     $.ajax({

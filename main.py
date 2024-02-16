@@ -260,13 +260,13 @@ def search_user():
             #formPay --> Confirm payment for an user
         elif data['form_id'] == 'formPay':
             user_id = data['user']
-            start_plan_date = data['start_plan_date']
+            row_id = data['row']
             try:
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
-                        sql = "UPDATE user_plans SET payment_day = (%s) WHERE user_id = (%s) and start_plan_date = (%s)"
-                        values = (datetime.now(), user_id, start_plan_date)
+                        sql = "UPDATE user_plans SET payment_day = (%s) WHERE user_id = (%s) and user_plans.id = (%s)"
+                        values = (datetime.now(), user_id, row_id)
                         cursor.execute(sql, values)
                         connection.commit()
                         connection.close()
