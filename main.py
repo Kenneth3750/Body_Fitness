@@ -1,34 +1,46 @@
 
 from flask import Flask, render_template, request, jsonify
+from flask_mail import Mail, Message
+from flask_apscheduler import APScheduler
+import time
 import pymysql
 from pymysql import Error
 from decouple import config
 from datetime import datetime, timedelta
 from functions import plan_info
+from colorama import Fore, Style
+
+
 
 
 #body_fitness server 
 
 app = Flask(__name__)
+# flask_mail for gmail config
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = config('mail')
+app.config['MAIL_PASSWORD'] = config('mail_pass')
+mail = Mail(app)
 
-# Configuración de Flask-Mail para Gmail
-# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-# app.config['MAIL_PORT'] = 587
-# app.config['MAIL_USE_TLS'] = True
-# app.config['MAIL_USERNAME'] = config('mail')
-# app.config['MAIL_PASSWORD'] = config('mail_pass')
-
+#  APScheduler config
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
 
 def database_connection():
     try:
         connection = pymysql.connect(host=config('host'),
                                     user=config('user'),
                                     password=config('password'),
-                                    db=config('db') )
+                                    db=config('db'),
+                                    charset='utf8mb4')
         return connection
     except Error as e:
         print("Database unreachable, " + str(e))
         return None
+     
     
 def get_plan_duration(id_plan):
     try:
@@ -126,7 +138,7 @@ def login_data():
                         cursor.execute(sql)
                         result = cursor.fetchall()
                         connection.close()
-                        print(result)
+
                         return jsonify(result), 200
                 else:
                     print("Database connection failed")
@@ -245,7 +257,6 @@ def search_user():
                 return jsonify({'message': 'Error' + str(e)}), 500
         #form2 --> renew user
         elif data['form_id'] == 'form2':
-            print(data)
             plan = data['plan']
             int_plan = int(plan)
             user_dni = data['id']
@@ -311,6 +322,83 @@ def search_user():
                 return jsonify({'message': 'Error' + str(e)}), 500
 
 
+def serch_email_users():
+    try:
+        connection = database_connection()
+        if connection:
+            with connection.cursor() as cursor:
+                sql ="""SELECT users.nombre, users.apellido, users.cedula, user_plans.end_plan_date, user_plans.frequency, users.correo
+                        FROM users
+                        INNER JOIN ( select * from user_plans where (user_id, start_plan_date) in (select user_id, max(start_plan_date) from user_plans group by user_id)) as user_plans
+                        ON users.id = user_plans.user_id
+                        WHERE (
+                            (user_plans.frequency <= 3 AND DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
+                            OR (user_plans.frequency IS NULL AND DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 0 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > -2)
+                            OR (user_plans.frequency IS NULL AND DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 3 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
+                            OR (DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 3 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 AND user_plans.frequency IS NOT NULL)
+                            OR (DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 0 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > -2 AND user_plans.frequency IS NOT NULL)
+                        )
+                        GROUP BY users.cedula, users.nombre, users.apellido, user_plans.end_plan_date, user_plans.frequency, users.correo
+                        ORDER BY user_plans.end_plan_date DESC;"""
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                connection.close()
+                return result
+        else:
+            print("Database connection failed")
+            return jsonify({'message': 'Database connection failed'}), 500
+    except Error as e:
+        print( 'Error ' + str(e))
+        return jsonify({'message': 'Error' + str(e)}), 500
+
+
+
+#mail server
+            
+def send_email(dest, subject, content):
+    msg = Message(subject, sender=app.config['MAIL_USERNAME'], recipients=[dest])
+    msg.body = content
+    mail.send(msg)
+
+@scheduler.task('interval', id='send_email', seconds=3600)
+def send_all_emails():
+    users = serch_email_users()
+    print(users)
+    for user in users:
+        dest = user[5]
+        subject = 'Renovación de plan'
+        last_day = user[3]
+        sessions_left = user[4]
+        name = f"{user[0]} {user[1]}"
+        if sessions_left:
+            sessions_left = sessions_left
+        else:
+            sessions_left = 'No aplica'
+        content = f"""Estimado(a) {name}, 
+Gimansio Body Fitness le informa que está próximo a vencer.Recuerde que puede renovar su plan en la caja de nuestras instalaciones o a través de nequi al número xxxxxxxx 
+La información de su plan es la siguiente: 
+{Fore.BLACK}{Style.BRIGHT}Fecha de vencimiento:{Style.RESET_ALL} {last_day} 
+{Fore.BLACK}{Style.BRIGHT}Sesiones restantes: {Style.RESET_ALL}  {sessions_left} (Sólo para planes de 15, 12 y 10 días)
+
+
+        Feliz día,
+        Att. Gimansio Body Fitness"""
+        print(content)
+
+
+
+    # with app.app_context():
+    #     dest = 'kennethbarriosq@gmail.com'
+    #     subject = 'Prueba'
+    #     content = """Hola, este es un mensaje de prueba
+    #     Y esta es una nueva linea"""
+    #     print('Sending email')
+    #     send_email(dest, subject, content)
+
+
 
 if __name__ == '__main__':
-    app.run(debug=True, port=10000)
+    app.run(debug=True, port=10000, use_reloader=False)
+  
+
+

@@ -1,7 +1,7 @@
 drop database if exists body_fitness;
 
 
-create database if not exists body_fitness; 
+CREATE DATABASE IF NOT EXISTS body_fitness CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 use body_fitness;
 
@@ -50,19 +50,19 @@ insert into plans(plan_name, duration) values('otro', null);
 
 
 
-insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Juan', 'Perez', 20, '123456789', 'juanperez@example.com', '1234567890', '123 Main St');   
+insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Juan', 'Perez', 20, '123456789', 'kennethbarriosq@gmail.com', '1234567890', '123 Main St');   
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Maria', 'Lopez', 25, '987654321', 'marialopez@example.com', '0987654321', '456 Elm St'); 
-insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Carlos', 'Gomez', 30, '456789123', 'carlosgomez@example.com', '4567891239', '789 Oak St'); 
-insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Laura', 'Rodriguez', 35, '321654987', 'laurarodriguez@example.com', '0321654987', '789 Maple St'); 
+insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Mayra', 'Carreño', 30, '456789123', 'maalejacluna@gmail.com', '4567891239', '789 Oak St'); 
+insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Samuel', 'Solano', 35, '321654987', 'samdace19@gmail.com', '0321654987', '789 Maple St'); 
 
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-01-01', '2023-03-03', NULL, '2023-01-01', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-04-01', '2023-05-31', NULL, '2023-04-01', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 6, '2023-06-01', '2023-07-31', 0, '2023-04-01', 'pagado');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-12-20', '2024-01-20', NULL, '2023-12-20', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2024-12-20', '2024-01-20', NULL, '2023-12-20', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(2, 1, '2023-11-01', '2024-01-01', NULL, '2023-11-01', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 5, '2024-01-03', '2024-01-18', 1, '2023-12-01', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 1, '2024-01-20', '2024-02-20', NULL, '2023-12-01', 'pendiente');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(4, 7, '2024-01-03', '2024-02-03', 0, '2023-12-01', 'pendiente');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(4, 7, '2024-01-23', '2024-02-23', 1, '2023-12-01', 'pendiente');
 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('John', 'Smith', 28, '9876543210', 'johnsmith@example.com', '9876543210', '789 Oak St'); 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('Emily', 'Johnson', 32, '4567891230', 'emilyjohnson@example.com', '4567891230', '456 Elm St'); 
