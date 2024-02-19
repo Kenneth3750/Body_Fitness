@@ -1,7 +1,7 @@
 drop database if exists body_fitness;
 
 
-CREATE DATABASE IF NOT EXISTS body_fitness CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS body_fitness CHARACTER SET utf8mb4;
 
 use body_fitness;
 
@@ -33,6 +33,7 @@ create table if not exists user_plans(
     payment_day date,
     payment_status enum('pendiente', 'pagado'),
     last_entry datetime default current_timestamp on update current_timestamp,
+    email_status int default 0,
     foreign key (user_id) references users(id) on delete cascade,
     foreign key (plan_id) references plans(id) on delete cascade
 );
@@ -58,10 +59,10 @@ insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) va
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-01-01', '2023-03-03', NULL, '2023-01-01', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2023-04-01', '2023-05-31', NULL, '2023-04-01', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 6, '2023-06-01', '2023-07-31', 0, '2023-04-01', 'pagado');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2024-12-20', '2024-01-20', NULL, '2023-12-20', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(1, 1, '2024-01-20', '2024-02-20', NULL, '2023-12-20', 'pagado');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(2, 1, '2023-11-01', '2024-01-01', NULL, '2023-11-01', 'pagado');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 5, '2024-01-03', '2024-01-18', 1, '2023-12-01', 'pagado');
-insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 1, '2024-01-20', '2024-02-20', NULL, '2023-12-01', 'pendiente');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 5, '2023-12-03', '2024-01-03', 1, '2023-12-01', 'pagado');
+insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(3, 1, '2024-01-14', '2024-02-14', NULL, '2023-12-01', 'pendiente');
 insert into user_plans(user_id, plan_id, start_plan_date, end_plan_date, frequency, payment_day, payment_status) values(4, 7, '2024-01-23', '2024-02-23', 1, '2023-12-01', 'pendiente');
 
 insert into users(nombre, apellido, edad, cedula, correo, celular, direccion) values('John', 'Smith', 28, '9876543210', 'johnsmith@example.com', '9876543210', '789 Oak St'); 

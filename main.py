@@ -6,7 +6,7 @@ import time
 import pymysql
 from pymysql import Error
 from decouple import config
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from functions import plan_info
 from colorama import Fore, Style
 
@@ -327,23 +327,42 @@ def serch_email_users():
         connection = database_connection()
         if connection:
             with connection.cursor() as cursor:
-                sql ="""SELECT users.nombre, users.apellido, users.cedula, user_plans.end_plan_date, user_plans.frequency, users.correo
-                        FROM users
-                        INNER JOIN ( select * from user_plans where (user_id, start_plan_date) in (select user_id, max(start_plan_date) from user_plans group by user_id)) as user_plans
-                        ON users.id = user_plans.user_id
-                        WHERE (
-                            (user_plans.frequency <= 3 AND DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
-                            OR (user_plans.frequency IS NULL AND DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 0 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > -2)
-                            OR (user_plans.frequency IS NULL AND DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 3 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
-                            OR (DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 3 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 AND user_plans.frequency IS NOT NULL)
-                            OR (DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 0 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > -2 AND user_plans.frequency IS NOT NULL)
-                        )
-                        GROUP BY users.cedula, users.nombre, users.apellido, user_plans.end_plan_date, user_plans.frequency, users.correo
-                        ORDER BY user_plans.end_plan_date DESC;"""
+                sql ="""SELECT users.nombre, users.apellido, users.cedula, user_plans.end_plan_date, user_plans.frequency, users.correo, user_plans.email_status, user_plans.user_id
+                                FROM users
+                                INNER JOIN ( select * from user_plans where (user_id, start_plan_date) in (select user_id, max(start_plan_date) from user_plans group by user_id)) as user_plans
+                                ON users.id = user_plans.user_id
+                                WHERE (
+                                    (user_plans.frequency <= 3 AND DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
+                                    OR (user_plans.frequency IS NULL AND DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 0 and DATEDIFF(user_plans.end_plan_date, CURDATE()) >= -4)
+                                    OR (user_plans.frequency IS NULL AND DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 3 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0)
+                                    OR (DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 3 and DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 AND user_plans.frequency IS NOT NULL)
+                                    OR (DATEDIFF(user_plans.end_plan_date, CURDATE()) <= 0 and DATEDIFF(user_plans.end_plan_date, CURDATE()) >= -4 AND user_plans.frequency IS NOT NULL)
+                                )
+                                GROUP BY users.cedula, users.nombre, users.apellido, user_plans.end_plan_date, user_plans.frequency, users.correo, user_plans.email_status, user_plans.user_id
+                                ORDER BY user_plans.end_plan_date DESC;"""
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 connection.close()
                 return result
+        else:
+            print("Database connection failed")
+            return jsonify({'message': 'Database connection failed'}), 500
+    except Error as e:
+        print( 'Error ' + str(e))
+        return jsonify({'message': 'Error' + str(e)}), 500
+    
+
+def update_email_status(user_id, end_date):
+    try:
+        connection = database_connection()
+        if connection:
+            with connection.cursor() as cursor:
+                sql = "UPDATE user_plans SET email_status = email_status + 1 WHERE user_id = (%s) and end_plan_date = (%s)"
+                values = (user_id, end_date) 
+                cursor.execute(sql,values)
+                connection.commit()
+                connection.close()
+                return jsonify({'message': 'User updated successfully'}), 200
         else:
             print("Database connection failed")
             return jsonify({'message': 'Database connection failed'}), 500
@@ -356,44 +375,70 @@ def serch_email_users():
 #mail server
             
 def send_email(dest, subject, content):
-    msg = Message(subject, sender=app.config['MAIL_USERNAME'], recipients=[dest])
+    msg = Message(subject, sender=config('mail'), recipients=[dest])
     msg.body = content
     mail.send(msg)
 
-@scheduler.task('interval', id='send_email', seconds=3600)
+@scheduler.task('interval', id='send_email', seconds=60)
 def send_all_emails():
-    users = serch_email_users()
-    print(users)
-    for user in users:
-        dest = user[5]
-        subject = 'Renovación de plan'
-        last_day = user[3]
-        sessions_left = user[4]
-        name = f"{user[0]} {user[1]}"
-        if sessions_left:
-            sessions_left = sessions_left
-        else:
-            sessions_left = 'No aplica'
-        content = f"""Estimado(a) {name}, 
-Gimansio Body Fitness le informa que está próximo a vencer.Recuerde que puede renovar su plan en la caja de nuestras instalaciones o a través de nequi al número xxxxxxxx 
+    with app.app_context():
+        users = serch_email_users()
+        print(users)
+        current_date = date.today() 
+        for user in users:
+            last_day = user[3]
+            sessions_left = user[4]
+            name = f"{user[0]} {user[1]}"
+            dest = user[5]
+            if sessions_left:
+                sessions_left = sessions_left
+            else:
+                sessions_left = 'No aplica'
+
+            if user[6] == 0:
+                subject = 'Vencimiento próximo del plan'
+                content = f"""Estimado(a) {name} --> {dest}--> {subject}, 
+Gimansio Body Fitness le informa que está {Fore.BLACK}{Style.BRIGHT}próximo{Style.RESET_ALL} a vencer.Recuerde que puede renovar su plan en la caja de nuestras instalaciones o a través de nequi al número xxxxxxxx 
 La información de su plan es la siguiente: 
 {Fore.BLACK}{Style.BRIGHT}Fecha de vencimiento:{Style.RESET_ALL} {last_day} 
 {Fore.BLACK}{Style.BRIGHT}Sesiones restantes: {Style.RESET_ALL}  {sessions_left} (Sólo para planes de 15, 12 y 10 días)
 
 
-        Feliz día,
-        Att. Gimansio Body Fitness"""
-        print(content)
+Feliz día,
+
+Att. Gimansio Body Fitness"""
+                
+                update_email_status(user[7], last_day)
+                send_email(dest, subject, content)
+                print('-----------------Email sent-----------------')
+
+            elif user[6] == 1 and (user[3] < current_date or sessions_left == 0):
+                subject = 'Plan vencido'
+                content = f"""Estimado(a) {name} --> {dest}--> {subject}, 
+Gimansio Body Fitness le informa que su plan ya se encuentra {Fore.BLACK}{Style.BRIGHT}vencido{Style.RESET_ALL}.Recuerde que puede renovar su plan en la caja de nuestras instalaciones o a través de nequi al número xxxxxxxx 
+La información de su plan es la siguiente: 
+{Fore.BLACK}{Style.BRIGHT}Fecha de vencimiento:{Style.RESET_ALL} {last_day} 
+{Fore.BLACK}{Style.BRIGHT}Sesiones restantes: {Style.RESET_ALL}  {sessions_left} (Sólo para planes de 15, 12 y 10 días)
 
 
+Feliz día,
 
-    # with app.app_context():
-    #     dest = 'kennethbarriosq@gmail.com'
-    #     subject = 'Prueba'
-    #     content = """Hola, este es un mensaje de prueba
-    #     Y esta es una nueva linea"""
-    #     print('Sending email')
-    #     send_email(dest, subject, content)
+Att. Gimansio Body Fitness"""
+                update_email_status(user[7], last_day)
+                send_email(dest, subject, content)
+                print('-----------------Email sent-----------------')
+
+
+            else:
+                pass
+            time.sleep(5)
+    
+
+
+            
+
+
+      
 
 
 
