@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "gym-app-414902",
+  "private_key_id": "dd6bd2cf05aa7322e39d29c50a8ec53bb38ed175",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC1LaFNDFYJJDBr\n6TCSTH/U0XKugtiVy7VOZ/8PjmMOJy7xu4Y0h/5bTHidczfj7eP1mYudBQXgJUgN\nvc+nWpZID7RCuUaxsp3qgXePqdBTxUqkp4WAGRDMlhfEBowGSqD5DAujIVU3cmBz\nWNCN/WMqg5I0iVbgsRDrt1SU4aaWNYV7VYkUE2bej2b3qBSE5Mb4wruiPUm+txo4\n9XXMYYDcSKJBvqh7h4PbbQNx0HIXpvyJ1NgkysH8obxym2Yfv5Iib4wg75j1Ebs5\nifenG/doqNnx03J4sauOaJRP5r1pNhEF/OzAj28UsEcBAeu3ywZg28CmOr9faG4k\ntNkyXqhFAgMBAAECggEABfVTe0lboIlyFf7dvcgttu3YpZwEGftCU6sOqQkHyJaJ\n2r5N+kxlhxnmGjt6aHRfvzeU/VSUA3/p7jXCbm7OuWuhddOfsJwGAkIHnvN/4wea\n7FHd1JSTyCIyZRw7kIfZN7lM9x5FH8i9qPLJEJpa2HlcAgza4kuVxF8vJvfYIX3g\nYvCCQyDtifAoU0Gd2oZY7mL9L5Mdo+PMq7wt3Crjbc2CsERnStwyKBLw13hmLRIx\nbCKvWIGEtgNTw9yVpXwt4ieKwyMxVZSFVtt4sDwvTPkH5qL2liDH/k96pnZsrvE0\nEzOT2ARzHyRajTi0MF3cEftzWxNbjNL1W4NybCS6EwKBgQDZWcvS2o0XQzo2SDdg\nHHwIIc2fFJZIa2YaTs35O7A3qWtH65SmkkuDJ8WIYYASGt5LBsPFArdwshrv2KTm\nJ3OQc8i2/X4qrR4vYfUx7UurLzbVfw2G+mf38ff661FMo/Nouzv3io5g7ycMp2nE\nip2luOhPqXhGZOc/CXH/zAU3rwKBgQDVZTHOIQVD1KV1pXMy/tMQU6NKiGCJn21p\n10XsDoc/LccQLe1MUhjcueKW6HEe3GZCkt8J0cBYUlrTKiGb2s7Nt3uuBqGr2SzG\nH7cWVPdbu43M0glCrBllseVRDqv9tBjg3+15eO8LOcVW9cHf5rP5VMpgZRZp/avI\ntbc/CxwoSwKBgQCqifiRgwY9gHRGbzdz5CW1w8Aw19hrDknYzohyzFCh+/6/Oasz\nX4p8aFJnhgkVK5vLxo0JIe6JMFZOZvBL3hyg9RhB7Hh4R8ltaDEZcZVzxeICdmRI\nymWVeHgYm1b5CZNNU8vjmQXKLRu4pAsrOZAkngc5qkFDCp0fKuwVxyE45QKBgQC7\nn4vY5uOQLimEdQICtlaxJjiOUbY/irNSufo6gNOdUwyRRzA7SHufprh5YsoDDlnC\n8wuzwH5TqaU9wO9n70yhR1AxRJdlVz+suznpIq+SMieNDKcjvdletrkfOb0zBeRR\n49ESWqgiwJqnyNC7okZfVJPTiU3ZxzYA9PS3M3eAXQKBgAisNwsc72ZmZtSKvb7s\njO8OScDWDz6Zn4OALwpuaGh02h/a90CiiJ/MjrgId4QtbB0j8t93+MVN5YfT/hzC\ncVu6BUo9bOHBoBf/+pl3AZaqKlkxfYI7nzhoI10pi636lkLzszt/1jlBRCb0xnmV\nWcwowt/EmS/KA98PNdySQaED\n-----END PRIVATE KEY-----\n",
+  "client_email": "flask-app@gym-app-414902.iam.gserviceaccount.com",
+  "client_id": "100637594970913251216",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/flask-app%40gym-app-414902.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

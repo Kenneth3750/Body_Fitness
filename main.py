@@ -2,32 +2,38 @@
 from flask import Flask, render_template, request, jsonify
 from flask_mail import Mail, Message
 from flask_apscheduler import APScheduler
-import time
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import Flow
 import pymysql
 from pymysql import Error
 from decouple import config
 from datetime import datetime, timedelta, date
 from functions import plan_info
 from colorama import Fore, Style
-
-
+import os
 
 
 #body_fitness server 
 
 app = Flask(__name__)
+mail = Mail(app)
 # flask_mail for gmail config
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = config('mail')
-app.config['MAIL_PASSWORD'] = config('mail_pass')
-mail = Mail(app)
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME']=config('mail')
+app.config['MAIL_PASSWORD']=config('mail_pass')
+
+# CLIENT_SECRETS_FILE = 'gym-app-414902-dd6bd2cf05aa.json'
+# SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
 #  APScheduler config
 scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()
+
+
 
 def database_connection():
     try:
@@ -373,73 +379,70 @@ def update_email_status(user_id, end_date):
 
 
 #mail server
-            
-def send_email(dest, subject, content):
-    msg = Message(subject, sender=config('mail'), recipients=[dest])
-    msg.body = content
-    mail.send(msg)
+# def send_email(dest, subject, content):
+#     msg = Message(subject, sender=config('mail'), recipients=[dest])
+#     msg.body = content
+#     mail.send(msg)
 
-@scheduler.task('interval', id='send_email', seconds=60)
+@scheduler.task('interval', id='send_email', minutes=1)
 def send_all_emails():
     with app.app_context():
         users = serch_email_users()
         print(users)
         current_date = date.today() 
-        for user in users:
-            last_day = user[3]
-            sessions_left = user[4]
-            name = f"{user[0]} {user[1]}"
-            dest = user[5]
-            if sessions_left:
-                sessions_left = sessions_left
-            else:
-                sessions_left = 'No aplica'
+        with mail.connect() as conn:
+            for user in users:
+                last_day = user[3]
+                sessions_left = user[4]
+                name = f"{user[0]} {user[1]}"
+                dest = user[5]
+                if sessions_left:
+                    sessions_left = sessions_left
+                else:
+                    sessions_left = 'No aplica'
 
-            if user[6] == 0:
-                subject = 'Vencimiento próximo del plan'
-                content = f"""Estimado(a) {name} --> {dest}--> {subject}, 
-Gimansio Body Fitness le informa que está {Fore.BLACK}{Style.BRIGHT}próximo{Style.RESET_ALL} a vencer.Recuerde que puede renovar su plan en la caja de nuestras instalaciones o a través de nequi al número xxxxxxxx 
-La información de su plan es la siguiente: 
-{Fore.BLACK}{Style.BRIGHT}Fecha de vencimiento:{Style.RESET_ALL} {last_day} 
-{Fore.BLACK}{Style.BRIGHT}Sesiones restantes: {Style.RESET_ALL}  {sessions_left} (Sólo para planes de 15, 12 y 10 días)
-
-
-Feliz día,
-
-Att. Gimansio Body Fitness"""
-                
-                update_email_status(user[7], last_day)
-                send_email(dest, subject, content)
-                print('-----------------Email sent-----------------')
-
-            elif user[6] == 1 and (user[3] < current_date or sessions_left == 0):
-                subject = 'Plan vencido'
-                content = f"""Estimado(a) {name} --> {dest}--> {subject}, 
-Gimansio Body Fitness le informa que su plan ya se encuentra {Fore.BLACK}{Style.BRIGHT}vencido{Style.RESET_ALL}.Recuerde que puede renovar su plan en la caja de nuestras instalaciones o a través de nequi al número xxxxxxxx 
-La información de su plan es la siguiente: 
-{Fore.BLACK}{Style.BRIGHT}Fecha de vencimiento:{Style.RESET_ALL} {last_day} 
-{Fore.BLACK}{Style.BRIGHT}Sesiones restantes: {Style.RESET_ALL}  {sessions_left} (Sólo para planes de 15, 12 y 10 días)
+                if user[6] == 0:
+                    subject = 'Vencimiento próximo del plan'
+                    content = f"""Estimado(a) {name} --> {dest}--> {subject}, 
+    Gimansio Body Fitness le informa que está {Fore.BLACK}{Style.BRIGHT}próximo{Style.RESET_ALL} a vencer.Recuerde que puede renovar su plan en la caja de nuestras instalaciones o a través de nequi al número xxxxxxxx 
+    La información de su plan es la siguiente: 
+    {Fore.BLACK}{Style.BRIGHT}Fecha de vencimiento:{Style.RESET_ALL} {last_day} 
+    {Fore.BLACK}{Style.BRIGHT}Sesiones restantes: {Style.RESET_ALL}  {sessions_left} (Sólo para planes de 15, 12 y 10 días)
 
 
-Feliz día,
+    Feliz día,
 
-Att. Gimansio Body Fitness"""
-                update_email_status(user[7], last_day)
-                send_email(dest, subject, content)
-                print('-----------------Email sent-----------------')
+    Att. Gimansio Body Fitness"""
+                    
+                    update_email_status(user[7], last_day)
+                    msg = Message(subject=subject, sender=config('mail'), recipients=[dest], body=content)
+                    conn.send(msg)
+                    print('-----------------Email sent-----------------')
+
+                elif user[6] == 1 and (user[3] < current_date or sessions_left == 0):
+                    subject = 'Plan vencido'
+                    content = f"""Estimado(a) {name} --> {dest}--> {subject}, 
+    Gimansio Body Fitness le informa que su plan ya se encuentra {Fore.BLACK}{Style.BRIGHT}vencido{Style.RESET_ALL}.Recuerde que puede renovar su plan en la caja de nuestras instalaciones o a través de nequi al número xxxxxxxx 
+    La información de su plan es la siguiente: 
+    {Fore.BLACK}{Style.BRIGHT}Fecha de vencimiento:{Style.RESET_ALL} {last_day} 
+    {Fore.BLACK}{Style.BRIGHT}Sesiones restantes: {Style.RESET_ALL}  {sessions_left} (Sólo para planes de 15, 12 y 10 días)
 
 
-            else:
-                pass
-            time.sleep(5)
+    Feliz día,
+
+    Att. Gimansio Body Fitness"""
+                    update_email_status(user[7], last_day)
+                    msg = Message(subject=subject, sender=config('mail'), recipients=[dest], body=content)
+                    conn.send(msg)
+                    print('-----------------Email sent-----------------')
+
+
+                else:
+                    pass
     
 
 
             
-
-
-      
-
 
 
 if __name__ == '__main__':
