@@ -310,7 +310,7 @@ def search_user():
                     with connection.cursor() as cursor:
                         sql= """UPDATE user_plans 
                                 SET end_plan_date = DATE_ADD(end_plan_date, INTERVAL 7 DAY) 
-                                WHERE (user_id, start_plan_date) IN (SELECT user_id, MAX(start_plan_date) FROM user_plans WHERE DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 AND (user_plans.frequency IS NULL OR user_plans.frequency > 0) GROUP BY user_id) AS active_plans"""
+                                WHERE (user_id, start_plan_date) IN (SELECT user_id, MAX(start_plan_date) FROM user_plans GROUP BY user_id)) AS active_plans"""
 
                         cursor.execute(sql, days_to_sum)
                         connection.commit()

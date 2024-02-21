@@ -716,3 +716,28 @@ function confirmPayment(user_id, row_id){
         }   
     })
 }
+function addMoreDays(){
+    numDays = document.getElementById("numDays").value;
+    console.log(numDays);
+
+   
+    $.ajax({
+        url: '/usuarios.html', // Replace with your server endpoint
+        type: 'POST',
+        data: { 
+            form_id: 'formDays',
+            numDays: numDays },
+        success: function(response) {
+            console.log(response);
+            appendAlert('Planes extendidos exitosamente', 'success');
+            hideAlertAfterDelay(3000);
+
+        },
+        error: function(xhr, status, error) {
+            appendAlert('No fue posible extender los planes', 'danger');
+            hideAlertAfterDelay(5000);
+            console.error('Error:', error);
+        }
+    });
+    
+}
