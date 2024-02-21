@@ -22,7 +22,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME']="bodyfitness12478@gmail.com"
-app.config['MAIL_PASSWORD']="ctpqvggtrfwnkjgw"
+app.config['MAIL_PASSWORD']="gmail password"
 mail.init_app(app)
 
 
