@@ -373,7 +373,7 @@ def update_email_status(user_id, end_date):
         return jsonify({'message': 'Error' + str(e)}), 500
 
 
-@scheduler.task('interval', id='send_email', seconds=50)
+@scheduler.task('interval', id='send_email', minutes=1440)
 def send_all_emails():
     with app.app_context():
         users = serch_email_users()
