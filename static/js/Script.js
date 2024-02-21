@@ -724,7 +724,9 @@ function addMoreDays(){
     $.ajax({
         url: '/usuarios.html', // Replace with your server endpoint
         type: 'POST',
-        data: { numDays: numDays },
+        data: { 
+            form_id: 'formDays',
+            numDays: numDays },
         success: function(response) {
             console.log(response);
             appendAlert('Planes extendidos exitosamente', 'success');
