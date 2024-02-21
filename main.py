@@ -177,6 +177,12 @@ def login_data():
                                 values = (current_date,user_id, end_date) 
                                 cursor.execute(sql,values)
                                 connection.commit()
+                        else:
+                            if frequency in [10, 12, 15]:
+                                sql = "UPDATE user_plans SET frequency = frequency - 1 WHERE user_id = (%s) and end_plan_date = (%s)"
+                                values = (user_id, end_date) 
+                                cursor.execute(sql,values)
+                                connection.commit()
                     connection.close()
                     return jsonify(data), 200
             except Error as e:
@@ -301,6 +307,25 @@ def search_user():
                     return jsonify({'message': 'Database connection failed'}), 500
             except Error as e:
                 return jsonify({'message': 'Error' + str(e)}), 500
+            #Add days to active plans
+        elif data['form_id'] == 'formSumPlans':
+            days_to_sum = data['days']
+            days_to_sum = int(days_to_sum)
+            try:
+                connection = database_connection()
+                if connection:
+                    with connection.cursor() as cursor:
+                        sql= """UPDATE user_plans 
+                                SET end_plan_date = DATE_ADD(end_plan_date, INTERVAL (%s) DAY) 
+                                WHERE (user_id, start_plan_date) IN (SELECT user_id, MAX(start_plan_date) WHERE DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 AND (user_plans.frequency IS NULL OR user_plans.frequency > 0) GROUP BY user_id)"""
+                        cursor.execute(sql, days_to_sum)
+                        connection.commit()
+                        connection.close()
+                        return jsonify({'message': 'Days added successfully'}), 200
+
+            except Error as e:
+                return jsonify({'message': 'Error' + str(e)}), 500
+
             #default_form --> view active plans
         else:
             try:
@@ -373,7 +398,7 @@ def update_email_status(user_id, end_date):
         return jsonify({'message': 'Error' + str(e)}), 500
 
 
-@scheduler.task('interval', id='send_email', minutes=1440)
+@scheduler.task('interval', id='send_email', minutes=50)
 def send_all_emails():
     with app.app_context():
         users = serch_email_users()

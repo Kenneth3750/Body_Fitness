@@ -319,6 +319,13 @@ function table_data_Users(data) {
             } 
             return num_dia;
         }
+        function dias1(dias){
+            num_dia=parseInt(dias);   
+            if(num_dia<10){
+                num_dia="0"+num_dia;
+            } 
+            return num_dia;
+        }
         const startPlanDate= `${datafechap.getFullYear()}-${mes(datafechap.getMonth())}-${dias2(datafechap.getDate())}`;
         
         userData.innerHTML += `
@@ -333,7 +340,7 @@ function table_data_Users(data) {
                 <td>${datafecha.getFullYear()}-${mes(datafecha.getMonth())}-${dias2(datafecha.getDate())}</td>
                 <td>${plan_state}</td>
                 <td>${dias_rest}</td>
-                <td>${ultimoIngreso.getFullYear()}-${mes(ultimoIngreso.getMonth())}-${dias2(ultimoIngreso.getDate())}</td>
+                <td>${ultimoIngreso.getFullYear()}-${mes(ultimoIngreso.getMonth())}-${dias1(ultimoIngreso.getDate())}</td>
                 <td>
                     ${pruebaPagoPendiente(data[i][16],data[i][10],data[i][9])}
                 </td>
@@ -725,8 +732,9 @@ function addMoreDays(){
         url: '/usuarios.html', 
         type: 'POST',
         data: { 
-            form_id: 'formDays',
-            numDays: numDays },
+            form_id: 'formSumPlans',
+            days: numDays 
+        },
         success: function(response) {
             console.log(response);
             appendAlert('Planes extendidos exitosamente', 'success');
