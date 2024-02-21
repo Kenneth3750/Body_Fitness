@@ -177,6 +177,12 @@ def login_data():
                                 values = (current_date,user_id, end_date) 
                                 cursor.execute(sql,values)
                                 connection.commit()
+                        else:
+                            if frequency in [10, 12, 15]:
+                                sql = "UPDATE user_plans SET frequency = frequency - 1 WHERE user_id = (%s) and end_plan_date = (%s)"
+                                values = (user_id, end_date) 
+                                cursor.execute(sql,values)
+                                connection.commit()
                     connection.close()
                     return jsonify(data), 200
             except Error as e:
@@ -304,14 +310,14 @@ def search_user():
             #Add days to active plans
         elif data['form_id'] == 'formSumPlans':
             days_to_sum = data['days']
+            days_to_sum = int(days_to_sum)
             try:
                 connection = database_connection()
                 if connection:
                     with connection.cursor() as cursor:
                         sql= """UPDATE user_plans 
-                                SET end_plan_date = DATE_ADD(end_plan_date, INTERVAL 7 DAY) 
-                                WHERE (user_id, start_plan_date) IN (SELECT user_id, MAX(start_plan_date) FROM user_plans GROUP BY user_id)) AS active_plans"""
-
+                                SET end_plan_date = DATE_ADD(end_plan_date, INTERVAL (%s) DAY) 
+                                WHERE (user_id, start_plan_date) IN (SELECT user_id, MAX(start_plan_date) WHERE DATEDIFF(user_plans.end_plan_date, CURDATE()) > 0 AND (user_plans.frequency IS NULL OR user_plans.frequency > 0) GROUP BY user_id)"""
                         cursor.execute(sql, days_to_sum)
                         connection.commit()
                         connection.close()
@@ -319,10 +325,6 @@ def search_user():
 
             except Error as e:
                 return jsonify({'message': 'Error' + str(e)}), 500
-
-
-
-
 
             #default_form --> view active plans
         else:
