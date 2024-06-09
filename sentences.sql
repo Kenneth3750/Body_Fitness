@@ -1,7 +1,7 @@
 drop database if exists body_fitness;
 
 
-CREATE DATABASE IF NOT EXISTS body_fitness CHARACTER SET utf8mb4;
+CREATE DATABASE IF NOT EXISTS body_fitness CHARACTER SET utf8;
 
 use body_fitness;
 
