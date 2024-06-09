@@ -729,7 +729,7 @@ function addMoreDays(){
 
    
     $.ajax({
-        url: '/usuarios.html', // Replace with your server endpoint
+        url: '/usuarios.html', 
         type: 'POST',
         data: { 
             form_id: 'formSumPlans',
